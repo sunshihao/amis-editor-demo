@@ -1,0 +1,3 @@
+type window = {
+  $wujie: {};
+};

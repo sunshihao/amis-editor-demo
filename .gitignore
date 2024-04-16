@@ -67,4 +67,4 @@ gh-pages
 package-lock.json
 
 .history/
-demo-6.0.9/
+dist/

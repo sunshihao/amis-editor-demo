@@ -5,10 +5,18 @@
 import {Icon, registerIcon} from 'amis';
 
 // @ts-ignore
-import PCPreview from './pc-preview.svg';
+import PCPreview from './svg/pc-preview.svg';
 // @ts-ignore
-import H5Preview from './h5-preview.svg';
+import H5Preview from './svg/h5-preview.svg';
 registerIcon('pc-preview', PCPreview);
 registerIcon('h5-preview', H5Preview);
+
+// @ts-ignore
+import CorpusI18n from './svg/corpus-i18n.svg';
+registerIcon('corpus-i18n', CorpusI18n);
+
+// @ts-ignore
+import Back from './svg/back.svg';
+registerIcon('back', Back);
 
 export {Icon};
