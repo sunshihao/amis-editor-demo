@@ -1,3 +1,3 @@
-type window = {
-  $wujie: {};
-};
+interface Window {
+  $wujie: any;
+}

@@ -6,10 +6,6 @@ export interface MyRendererProps extends RendererProps {
   target?: string;
 }
 
-@Renderer({
-  type: 'my-renderer',
-  autoVar: true // amis 1.8 之后新增的功能，自动解析出参数里的变量
-})
 export default class MyRenderer extends React.Component<MyRendererProps> {
   static defaultProps = {
     target: 'world'
@@ -20,3 +16,8 @@ export default class MyRenderer extends React.Component<MyRendererProps> {
     return <p>Hello {target}! @amis-editor</p>;
   }
 }
+
+Renderer({
+  type: 'my-renderer1',
+  autoVar: true
+})(MyRenderer);

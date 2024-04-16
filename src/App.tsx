@@ -20,14 +20,14 @@ export default class App extends React.PureComponent {
               title="返回"
               onClick={() => {
                 // 返回
-                // window.$wujie?.bus.$emit(`routerBack`);
+                window?.$wujie?.bus.$emit(`routerBack`);
               }}
             />
             <span
               style={{marginLeft: '6px'}}
               onClick={() => {
                 // 返回
-                // window.$wujie?.bus.$emit(`routerBack`);
+                window?.$wujie?.bus.$emit(`routerBack`);
               }}
             >
               返回

@@ -5,7 +5,7 @@ import {Select, uuid, Button} from 'amis';
 import {currentLocale} from 'i18n-runtime';
 import {Portal} from 'react-overlays';
 import {Icon} from './icons/index';
-// import LayoutList from './layout/index';
+import LayoutList from './layout/index';
 import {cxdData} from 'amis-theme-editor-helper';
 
 const i18nEnabled = false;
@@ -339,14 +339,13 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
   }
 
   componentDidMount(): void {
-    // const props = window.$wujie?.props;
-    // console.log('微应用接收参数------', props?.schema);
-    // if (props?.schema) {
-    //   // 若是有值则进行默认赋值
-    //   this.setState({
-    //     schema: JSON.parse(props.schema)
-    //   });
-    // }
+    const props = window?.$wujie?.props;
+    if (props?.schema) {
+      // 若是有值则进行默认赋值
+      this.setState({
+        schema: JSON.parse(props.schema)
+      });
+    }
   }
 
   getSchema(type: string) {
@@ -441,7 +440,7 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
         i18nEnabled={i18nEnabled}
         theme={theme || 'cxd'}
         showCustomRenderersPanel={true}
-        // plugins={LayoutList} // 存放常见布局组件
+        plugins={LayoutList} // 存放常见布局组件
         $schemaUrl={`${location.protocol}//${location.host}/schema.json`}
         actionOptions={{
           showOldEntry: false
@@ -473,54 +472,20 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
       <div className="Editor-inner">
         <Portal container={() => document.querySelector('#headerBar') as any}>
           <>
-            <div className="Editor-view-mode-group-container">
-              <div className="Editor-view-mode-group">
-                <div
-                  className={`Editor-view-mode-btn ${
-                    type === EditorType.EDITOR ? 'is-active' : ''
-                  }`}
-                  onClick={() => {
-                    this.handleTypeChange(EditorType.EDITOR);
-                  }}
-                >
-                  <Icon icon="pc-preview" title="PC模式" />
-                </div>
-                <div
-                  className={`Editor-view-mode-btn ${
-                    type === EditorType.MOBILE ? 'is-active' : ''
-                  }`}
-                  onClick={() => {
-                    this.handleTypeChange(EditorType.MOBILE);
-                  }}
-                >
-                  <Icon icon="h5-preview" title="移动模式" />
-                </div>
-              </div>
+            <div
+              className="Editor-view-mode-group-container"
+              style={{fontWeight: 'bold'}}
+            >
+              {window?.$wujie?.props.pageName || '页面名称'}
             </div>
-
             <div className="Editor-header-actions">
               <ShortcutKey />
-              {/* {
-                // @ts-ignore
-                // vite编译时替换
-                __editor_i18n ? (
-                  <Select
-                    className="margin-left-space "
-                    options={editorLanguages}
-                    value={curLanguage}
-                    clearable={false}
-                    onChange={(e: any) => this.changeLocale(e.value)}
-                  />
-                ) : null
-              } */}
-
               {i18nEnabled && (
                 <Button
                   className="ml-2"
                   level="info"
                   onClick={() => {
                     let _uuid = uuid();
-                    console.log('点击测试国际化按钮', _uuid);
                     this.setState({
                       appLocale: _uuid,
                       replaceText: {
@@ -540,12 +505,12 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
                   className={`header-action-btn primary`}
                   onClick={() => {
                     // 触发wujie保存
-                    // const props = window.$wujie?.props;
+                    const props = window.$wujie?.props;
                     this.onSave(); // 触发原本缓存
-                    // window.$wujie?.bus.$emit(`save_${props.id}`, {
-                    //   id: props.id,
-                    //   data: schema
-                    // });
+                    window.$wujie?.bus.$emit(`save_${props.id}`, {
+                      id: props.id,
+                      data: schema
+                    });
                   }}
                 >
                   保存
