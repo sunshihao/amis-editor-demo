@@ -65,3 +65,6 @@ gh-pages
 .DS_Store
 
 package-lock.json
+
+.history/
+demo-6.0.9/
