@@ -1,44 +1,17 @@
+/**
+ * @file entry of this example.
+ * @author fex
+ */
 import * as React from 'react';
-import {AlertComponent, ToastComponent, ContextMenu} from 'amis';
-// @ts-ignore
-import AMisSchemaEditor from './Editor';
-import {Icon} from './icons/index';
+import ReactDOM from 'react-dom';
+import App from './App';
+//
+import '@fortawesome/fontawesome-free/css/all.css';
+import '@fortawesome/fontawesome-free/css/v4-shims.css';
+import 'amis/lib/themes/cxd.css';
+import 'amis/lib/helper.css';
+import 'amis/sdk/iconfont.css';
+import 'amis-editor-core/lib/style.css';
+import './style.scss';
 
-export default class App extends React.PureComponent {
-  render() {
-    // 备注: 如果需要改用antd主题，还需要将index.html换成index-antd.html
-    const curTheme = 'cxd'; // 默认使用cxd主题
-    return (
-      <div className="Editor-Demo">
-        <div id="headerBar" className="Editor-header">
-          <div
-            className="Editor-title cursor-pointer"
-            style={{fontWeight: 'bold', fontSize: '14px'}}
-          >
-            <Icon
-              icon="back"
-              title="返回"
-              onClick={() => {
-                // 返回
-                window.$wujie?.bus.$emit(`routerBack`);
-              }}
-            />
-            <span
-              style={{marginLeft: '6px'}}
-              onClick={() => {
-                // 返回
-                window.$wujie?.bus.$emit(`routerBack`);
-              }}
-            >
-              返回
-            </span>
-          </div>
-        </div>
-        <AMisSchemaEditor theme={curTheme} />
-        <ToastComponent theme={curTheme} />
-        <AlertComponent theme={curTheme} />
-        <ContextMenu theme={curTheme} />
-      </div>
-    );
-  }
-}
+ReactDOM.render(<App />, document.getElementById('root'));

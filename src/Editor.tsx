@@ -14,7 +14,7 @@ setThemeConfig(cxdData);
 const schema = {
   type: 'page',
   title: 'Simple Form Page',
-  regions: ['body'], // ???
+  regions: ['body'],
   body: [
     {
       type: 'form',
@@ -339,14 +339,14 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
   }
 
   componentDidMount(): void {
-    const props = window.$wujie?.props;
-    console.log('微应用接收参数------', props?.schema);
-    if (props?.schema) {
-      // 若是有值则进行默认赋值
-      this.setState({
-        schema: JSON.parse(props.schema)
-      });
-    }
+    // const props = window.$wujie?.props;
+    // console.log('微应用接收参数------', props?.schema);
+    // if (props?.schema) {
+    //   // 若是有值则进行默认赋值
+    //   this.setState({
+    //     schema: JSON.parse(props.schema)
+    //   });
+    // }
   }
 
   getSchema(type: string) {
@@ -500,7 +500,7 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
 
             <div className="Editor-header-actions">
               <ShortcutKey />
-              {
+              {/* {
                 // @ts-ignore
                 // vite编译时替换
                 __editor_i18n ? (
@@ -512,7 +512,7 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
                     onChange={(e: any) => this.changeLocale(e.value)}
                   />
                 ) : null
-              }
+              } */}
 
               {i18nEnabled && (
                 <Button
@@ -540,12 +540,12 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
                   className={`header-action-btn primary`}
                   onClick={() => {
                     // 触发wujie保存
-                    const props = window.$wujie?.props;
+                    // const props = window.$wujie?.props;
                     this.onSave(); // 触发原本缓存
-                    window.$wujie?.bus.$emit(`save_${props.id}`, {
-                      id: props.id,
-                      data: schema
-                    });
+                    // window.$wujie?.bus.$emit(`save_${props.id}`, {
+                    //   id: props.id,
+                    //   data: schema
+                    // });
                   }}
                 >
                   保存
