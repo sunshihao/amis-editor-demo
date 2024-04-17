@@ -13,8 +13,8 @@ import Layout2_1_v3 from './plugin/layout/Layout2_1_v3';
 import Layout1_2_v4 from './plugin/layout/Layout1_2_v4';
 import Layout_scroll_x from './plugin/layout/Layout_scroll_x';
 import Layout_scroll_y from './plugin/layout/Layout_scroll_y';
-// import BusinessDemo from './plugin/busuness/Demo';
-// import MyRenderer from './plugin/cust/MyRenderer';
+import MyRenderer from './plugin/cust/MyRenderer';
+import business_demo from './plugin/business/Demo';
 
 const LayoutList: Array<any> = [
   Layout1_1,
@@ -35,9 +35,10 @@ const LayoutList: Array<any> = [
   Layout_scroll_x,
   Layout_scroll_y,
   // 自定义组件
-  // MyRenderer,
+  MyRenderer,
   // 自定义业务组件
   // BusinessDemo
+  business_demo
 ];
 
 export default LayoutList;

@@ -4,11 +4,14 @@ export const demoDefaultPage = {
   body: [
     {
       type: 'crud',
-      id: 'u:b177ad50e373',
+      id: 'u:b177ad503333',
       syncLocation: false,
       api: {
         method: 'post',
-        url: '/infra/dynamic/page/1'
+        url: '/apiAmis/admin-api/infra/dynamic/page/1',
+        header: {
+          Authorization: 'Bearer 4cf05561858440e7a99f8a24a47d7c3b'
+        }
       },
       columns: [
         {
@@ -306,11 +309,14 @@ export const demoDefaultPage = {
 export const demoDefaultBody = [
   {
     type: 'crud',
-    id: 'u:b177ad50e373',
+    id: 'u:b177ad503333',
     syncLocation: false,
     api: {
       method: 'post',
-      url: '/infra/dynamic/page/1'
+      url: '/apiAmis/admin-api/infra/dynamic/page/1',
+      header: {
+        Authorization: 'Bearer 4cf05561858440e7a99f8a24a47d7c3b'
+      }
     },
     columns: [
       {

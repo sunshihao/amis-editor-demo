@@ -11,12 +11,21 @@ module.exports = {
   webpack: {
     resolve: {
       // webpack的resolve配置
-      extensions: ['.js', '.jsx', '.ts', '.tsx','.esm.js', '.umd.js', '.min.js', '.json'], // 用于配置webpack在尝试过程中用到的后缀列表
+      extensions: [
+        '.js',
+        '.jsx',
+        '.ts',
+        '.tsx',
+        '.esm.js',
+        '.umd.js',
+        '.min.js',
+        '.json'
+      ], // 用于配置webpack在尝试过程中用到的后缀列表
       alias: {
-        '@': resolve('src'),
+        '@': resolve('src')
         // $function: resolve('src/function'),
         // $utils: resolve('src/utils'),
-      },
+      }
       // conditionNames: ['require']
     },
     createDeclaration: false, // 打包时是否创建ts声明文件
@@ -28,11 +37,12 @@ module.exports = {
     // cssLoaderUrl: true,
     // cssLoaderUrlDir: 'editor/fontawesome-free',
     moduleRules: [], // 用于配置自定义loaders
-    plugins: [], // 用于配置自定义plugins
+    plugins: [] // 用于配置自定义plugins
   },
   dev: {
-    entry: { // 本地调试模式的入口
-      index: './src/index.tsx',
+    entry: {
+      // 本地调试模式的入口
+      index: './src/index.tsx'
     },
     // 用于开启本地调试模式的相关配置信息
     NODE_ENV: 'development',
@@ -45,21 +55,23 @@ module.exports = {
     cssSourceMap: false,
     closeHotReload: false, // 是否关闭热更新
     closeEditorClient: true, // 是否关闭自动注入editor
-    proxyTable: {
-      /**
-       * 将含有'/apiTest'路径的api代理到'http://api-test.com.cn'上，
-       * 详细使用见 https://www.webpackjs.com/configuration/dev-server/#devserver-proxy
-       */
-      '/apiTest': {
-        target: 'http://api-test.com.cn', // 不支持跨域的接口根地址
-        ws: true,
-        changeOrigin: true,
-      },
-    }
+    headers: {'Access-Control-Allow-Origin': '*', 'sssh': 'sssh'},
+    // proxyTable: {
+    //   /**
+    //    * 将含有'/apiTest'路径的api代理到'http://api-test.com.cn'上，
+    //    * 详细使用见 https://www.webpackjs.com/configuration/dev-server/#devserver-proxy
+    //    */
+    //   '/apiAmis': {
+    //     target: 'http://122.51.179.83:9000', // 不支持跨域的接口根地址
+    //     ws: true,
+    //     changeOrigin: true
+    //   }
+    // }
   },
   build: {
-    entry: { // webpack构建入口
-      index: './src/index.tsx',
+    entry: {
+      // webpack构建入口
+      index: './src/index.tsx'
       // editor:  './src/mobile.tsx'
     },
     // 用于构建生产环境代码的相关配置信息
@@ -71,6 +83,6 @@ module.exports = {
     productionGzip: false,
     productionGzipExtensions: ['js', 'css', 'json'],
     plugins: [new MonacoWebpackPlugin()],
-    bundleAnalyzerReport: false,
+    bundleAnalyzerReport: false
   }
 };

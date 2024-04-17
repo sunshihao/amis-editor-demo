@@ -4,7 +4,7 @@ import {Editor, ShortcutKey, BasePlugin, setThemeConfig} from 'amis-editor';
 import {Select, uuid, Button} from 'amis';
 import {currentLocale} from 'i18n-runtime';
 import {Portal} from 'react-overlays';
-import {Icon} from './icons/index';
+// import {Icon} from './icons/index';
 import LayoutList from './layout/index';
 import {cxdData} from 'amis-theme-editor-helper';
 
