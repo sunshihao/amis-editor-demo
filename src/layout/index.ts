@@ -15,6 +15,10 @@ import Layout_scroll_x from './plugin/layout/Layout_scroll_x';
 import Layout_scroll_y from './plugin/layout/Layout_scroll_y';
 import MyRenderer from './plugin/cust/MyRenderer';
 import business_demo from './plugin/business/Demo';
+import business_demo_tree from './plugin/business/Demo_Tree';
+import business_demo_mst_sta from './plugin/business/Demo_Mst_Standard';
+import business_demo_mst_erp from './plugin/business/Demo_Mst_Erp';
+import business_demo_mst_emb from './plugin/business/Demo_Mst_Emb';
 
 const LayoutList: Array<any> = [
   Layout1_1,
@@ -37,8 +41,11 @@ const LayoutList: Array<any> = [
   // 自定义组件
   MyRenderer,
   // 自定义业务组件
-  // BusinessDemo
-  business_demo
+  business_demo,
+  business_demo_tree,
+  business_demo_mst_sta,
+  business_demo_mst_erp,
+  business_demo_mst_emb
 ];
 
 export default LayoutList;

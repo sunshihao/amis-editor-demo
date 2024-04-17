@@ -21,7 +21,19 @@ export default defineConfig({
   server: {
     host: '0.0.0.0',
     cors: true,
-    port: 8910
+    port: 8910,
+    proxy: {
+      ['/apiAmis']: {
+        // target: 'http://122.51.179.83:9000',
+        target: 'http://10.2.44.13:48080',
+        ws: false,
+        changeOrigin: true,
+        rewrite: path => path.replace(new RegExp(`^/apiAmis`), '')
+      }
+    },
+    headers: {
+      Authorization: 'Bearer 120a2f4612e14144b26c618305e42a67'
+    }
   },
   resolve: {
     alias: {

@@ -4,7 +4,6 @@ import {Editor, ShortcutKey, BasePlugin, setThemeConfig} from 'amis-editor';
 import {Select, uuid, Button} from 'amis';
 import {currentLocale} from 'i18n-runtime';
 import {Portal} from 'react-overlays';
-// import {Icon} from './icons/index';
 import LayoutList from './layout/index';
 import {cxdData} from 'amis-theme-editor-helper';
 
@@ -340,6 +339,9 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
 
   componentDidMount(): void {
     const props = window?.$wujie?.props;
+
+    console.log('props-----', props)
+
     if (props?.schema) {
       // 若是有值则进行默认赋值
       this.setState({
