@@ -18,6 +18,7 @@ export default class App extends React.PureComponent {
             <Icon
               icon="back"
               title="返回"
+              style={{ height: '16px', width: '16px' }}
               onClick={() => {
                 // 返回
                 window?.$wujie?.bus.$emit(`routerBack`);
