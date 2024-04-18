@@ -1,11 +1,12 @@
-import {headers} from './params';
+import {headers, base_path} from './index';
 
-export const demoDefaultBody_MST_STA = [
+export const demoDefaultBody_MST_ERP = [
   {
     type: 'crud',
     api: {
       method: 'get',
-      url: '/apiAmis/admin-api/infra/demo03-student/page?pageNo=1&pageSize=10',
+      url:
+        base_path + '/admin-api/infra/demo03-student/page?pageNo=1&pageSize=10',
       headers
     },
     deferApi: '/amis/api/mock2/crud/table6?parentId=${id}',
@@ -82,7 +83,7 @@ export const demoDefaultBody_MST_STA = [
                   type: 'form',
                   api: {
                     method: 'put',
-                    url: '/apiAmis/admin-api/infra/demo02-category/update', // 修改接口
+                    url: base_path + '/admin-api/infra/demo02-category/update', // 修改接口
                     headers
                   },
                   body: [
@@ -109,7 +110,8 @@ export const demoDefaultBody_MST_STA = [
                       labelField: 'name',
                       valueField: 'id',
                       source: {
-                        url: '/apiAmis/admin-api/infra/demo02-category/list',
+                        url:
+                          base_path + '/admin-api/infra/demo02-category/list',
                         method: 'get',
                         headers
                       },
@@ -131,7 +133,7 @@ export const demoDefaultBody_MST_STA = [
             confirmText: '您确认要删除?',
             api: {
               method: 'delete',
-              url: '/apiAmis/admin-api/infra/demo02-category/delete?id=$id',
+              url: base_path + '/admin-api/infra/demo02-category/delete?id=$id',
               headers
             },
             id: 'u:45a0a1848451'
@@ -151,6 +153,7 @@ export const demoDefaultBody_MST_STA = [
         type: 'button',
         actionType: 'dialog',
         level: 'primary',
+        size: 'md',
         dialog: {
           type: 'dialog',
           title: '新增',
@@ -159,36 +162,178 @@ export const demoDefaultBody_MST_STA = [
               type: 'form',
               api: {
                 method: 'post',
-                url: '/apiAmis/admin-api/infra/demo02-category/create', // 新增接口
-                headers
+                url: base_path + '/admin-api/infra/demo02-category/create',
+                headers: {
+                  Authorization: 'Bearer 2611c2f925244425ab64654ef40d724a',
+                  SSSH: 'sssh'
+                }
               },
               body: [
                 {
                   type: 'input-text',
                   name: 'name',
                   label: '名字',
-                  id: 'u:5194b2d73d7c'
+                  id: 'u:0a765e089985',
+                  required: true
                 },
                 {
-                  type: 'tree-select',
-                  name: 'parentId',
-                  id: 'u:cedbea6b021a',
-                  label: '父级编号',
-                  labelField: 'name',
-                  valueField: 'id',
-                  source: {
-                    url: '/apiAmis/admin-api/infra/demo02-category/list',
-                    method: 'get',
-                    headers
+                  type: 'radios',
+                  label: '性别',
+                  name: 'radios',
+                  options: [
+                    {
+                      label: '男',
+                      value: '1'
+                    },
+                    {
+                      label: '女',
+                      value: '2'
+                    }
+                  ],
+                  id: 'u:8b0950251b17',
+                  required: true
+                },
+                {
+                  type: 'input-date',
+                  label: '出生日期',
+                  name: 'birshday',
+                  id: 'u:755ef0589ead',
+                  required: true
+                },
+                {
+                  type: 'input-rich-text',
+                  label: '简介',
+                  name: 'rich-text',
+                  vendor: 'tinymce',
+                  id: 'u:1796c6b905ad',
+                  options: {
+                    plugins:
+                      'advlist,autolink,link,image,lists,charmap,preview,anchor,pagebreak,searchreplace,wordcount,visualblocks,visualchars,code,fullscreen,insertdatetime,media,nonbreaking,table,emoticons,template,help',
+                    toolbar:
+                      'undo redo formatselect bold italic backcolor alignleft aligncenter alignright alignjustify bullist numlist outdent indent removeformat help',
+                    menubar: true
                   },
-                  showIcon: false,
-                  options: []
+                  required: true
+                },
+                {
+                  type: 'tabs',
+                  tabs: [
+                    {
+                      title: '学生课程',
+                      body: [
+                        {
+                          type: 'table',
+                          columns: [
+                            {
+                              label: '序号',
+                              name: 'id',
+                              type: 'text',
+                              id: 'u:06b0f8e786a9'
+                            },
+                            {
+                              type: 'text',
+                              label: '名字',
+                              name: 'name',
+                              id: 'u:b3281c16b3df'
+                            },
+                            {
+                              type: 'text',
+                              label: '分数',
+                              name: 'number',
+                              id: 'u:9aa81594fce2'
+                            },
+                            {
+                              type: 'operation',
+                              label: '操作',
+                              id: 'u:1a5b4bc5e5be'
+                            }
+                          ],
+                          id: 'u:468a0ec1cc99',
+                          footer: [],
+                          columnsTogglable: 'auto'
+                        },
+                        {
+                          type: 'grid',
+                          columns: [
+                            {
+                              body: [
+                                {
+                                  type: 'button',
+                                  label: '添加学生课程',
+                                  onEvent: {
+                                    click: {
+                                      actions: []
+                                    }
+                                  },
+                                  id: 'u:cd12617142f3',
+                                  size: 'sm'
+                                }
+                              ],
+                              id: 'u:955e1ad675be',
+                              md: 'auto',
+                              valign: 'middle'
+                            }
+                          ],
+                          id: 'u:3c6c0318577d',
+                          align: 'center'
+                        }
+                      ],
+                      id: 'u:e4cd9b76a7a6'
+                    },
+                    {
+                      title: '学生班级',
+                      body: [
+                        {
+                          type: 'input-text',
+                          label: '名字',
+                          name: 'text',
+                          id: 'u:9a1e79da8edb',
+                          placeholder: '请输入',
+                          required: true
+                        },
+                        {
+                          type: 'input-text',
+                          label: '班主任',
+                          name: 'text',
+                          id: 'u:e9ebda3d55d2',
+                          required: true,
+                          placeholder: '请输入'
+                        }
+                      ],
+                      id: 'u:8c8fcb60e883'
+                    }
+                  ],
+                  mountOnEnter: true,
+                  id: 'u:314c3385bcab'
                 }
               ],
-              id: 'u:6f8bf2172553'
+              id: 'u:b12c9b0c40f3',
+              actions: [
+                {
+                  type: 'submit',
+                  label: '提交',
+                  primary: true
+                }
+              ],
+              feat: 'Insert'
             }
           ],
-          id: 'u:517ec5106224'
+          id: 'u:1db3944a0b57',
+          actions: [
+            {
+              type: 'button',
+              actionType: 'cancel',
+              label: '取消',
+              id: 'u:22b785db415c'
+            },
+            {
+              type: 'button',
+              actionType: 'confirm',
+              label: '确定',
+              primary: true,
+              id: 'u:b1aa2440a175'
+            }
+          ]
         },
         id: 'u:9737be67a7d1'
       },
@@ -205,7 +350,7 @@ export const demoDefaultBody_MST_STA = [
               type: 'form',
               api: {
                 method: 'post',
-                url: '/apiAmis/admin-api/infra/dynamic/create/1',
+                url: base_path + '/admin-api/infra/dynamic/create/1',
                 headers
               },
               body: [
@@ -358,9 +503,9 @@ export const demoDefaultBody_MST_STA = [
   }
 ];
 
-export const demoDefaultPage_MST_STA = {
+export const demoDefaultPage_MST_ERP = {
   type: 'page',
-  body: demoDefaultBody_MST_STA,
+  body: demoDefaultBody_MST_ERP,
   id: 'u:560eb8d924eb',
   regions: ['body']
 };

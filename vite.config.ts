@@ -24,8 +24,8 @@ export default defineConfig({
     port: 8910,
     proxy: {
       ['/apiAmis']: {
-        // target: 'http://122.51.179.83:9000',
-        target: 'http://10.2.44.13:48080',
+        target: 'http://122.51.179.83:9000',
+        // target: 'http://10.2.44.13:48080',
         ws: false,
         changeOrigin: true,
         rewrite: path => path.replace(new RegExp(`^/apiAmis`), '')

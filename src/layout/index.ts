@@ -14,11 +14,11 @@ import Layout1_2_v4 from './plugin/layout/Layout1_2_v4';
 import Layout_scroll_x from './plugin/layout/Layout_scroll_x';
 import Layout_scroll_y from './plugin/layout/Layout_scroll_y';
 import MyRenderer from './plugin/cust/MyRenderer';
-import business_demo from './plugin/business/Demo';
-import business_demo_tree from './plugin/business/Demo_Tree';
-import business_demo_mst_sta from './plugin/business/Demo_Mst_Standard';
-import business_demo_mst_erp from './plugin/business/Demo_Mst_Erp';
-import business_demo_mst_emb from './plugin/business/Demo_Mst_Emb';
+import template_crud from './plugin/business/template/Crud';
+import template_tree from './plugin/business/template/Tree';
+import template_mst_emb from './plugin/business/template/Mst_Emb';
+import template_mst_erp from './plugin/business/template/Mst_Erp';
+import template_mst_sta from './plugin/business/template/Mst_Sta';
 
 const LayoutList: Array<any> = [
   Layout1_1,
@@ -41,11 +41,11 @@ const LayoutList: Array<any> = [
   // 自定义组件
   MyRenderer,
   // 自定义业务组件
-  business_demo,
-  business_demo_tree,
-  business_demo_mst_sta,
-  business_demo_mst_erp,
-  business_demo_mst_emb
+  template_crud,
+  template_tree,
+  template_mst_emb,
+  template_mst_erp,
+  template_mst_sta
 ];
 
 export default LayoutList;

@@ -9,25 +9,25 @@ import {getEventControlConfig} from 'amis-editor/lib/renderer/event-control/help
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {tipedLabel} from 'amis-editor-core';
 import {jsonToJsonSchema, EditorNodeType} from 'amis-editor-core';
-import {demoDefaultPage_MST_EMB, demoDefaultBody_MST_EMB} from './params';
+import {demoDefaultPage_MST_ERP, demoDefaultBody_MST_ERP} from '../params/params_erp';
 
-export default class business_demo_mst_emb extends BasePlugin {
-  static id = 'business_demo_mst_emb';
+export default class template_mst_erp extends BasePlugin {
+  static id = 'template_mst_erp';
   // 关联渲染器名字
   rendererName = 'page';
   $schema = '/schemas/PageSchema.json';
   // 组件名称
-  name = '主子表(内嵌)';
+  name = '主子表(ERP)';
   // 只有顶级才会用到这个page组件
   description =
-    '主子表(内嵌)';
+    '主子表(ERP)';
   // tags = '容器';
   tags = ['自定义', '业务页面'];
 
   icon = 'fa fa-columns';
   pluginIcon = 'flex-container-plugin';
 
-  scaffold: any = demoDefaultPage_MST_EMB;
+  scaffold: any = demoDefaultPage_MST_ERP;
   previewSchema: any = {
     type: 'page',
     className: 'text-left b-a',
@@ -35,7 +35,7 @@ export default class business_demo_mst_emb extends BasePlugin {
     title: '标题',
     subTitle: '副标题',
     aside: '边栏',
-    body: demoDefaultBody_MST_EMB
+    body: demoDefaultBody_MST_ERP
   };
 
   events: RendererPluginEvent[] = [

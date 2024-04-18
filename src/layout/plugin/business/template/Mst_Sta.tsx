@@ -9,10 +9,10 @@ import {getEventControlConfig} from 'amis-editor/lib/renderer/event-control/help
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {tipedLabel} from 'amis-editor-core';
 import {jsonToJsonSchema, EditorNodeType} from 'amis-editor-core';
-import {demoDefaultPage_MST_STA, demoDefaultBody_MST_STA} from './params_sta';
+import {demoDefaultPage_MST_STA, demoDefaultBody_MST_STA} from '../params/params_sta';
 
-export default class business_demo_mst_sta extends BasePlugin {
-  static id = 'business_demo_mst_sta';
+export default class template_mst_sta extends BasePlugin {
+  static id = 'template_mst_sta';
   // 关联渲染器名字
   rendererName = 'page';
   $schema = '/schemas/PageSchema.json';

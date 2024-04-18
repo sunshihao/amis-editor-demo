@@ -1,11 +1,13 @@
-import {headers} from './params';
+import {headers, base_path} from './index';
 
 export const demoDefaultBody_TREE = [
   {
     type: 'crud',
     api: {
       method: 'get',
-      url: '/apiAmis/admin-api/infra/demo02-category/list?pageNo=1&pageSize=10',
+      url:
+        base_path +
+        '/admin-api/infra/demo02-category/list?pageNo=1&pageSize=10',
       headers
     },
     deferApi: '/amis/api/mock2/crud/table6?parentId=${id}',
@@ -58,7 +60,7 @@ export const demoDefaultBody_TREE = [
                   type: 'form',
                   api: {
                     method: 'put',
-                    url: '/apiAmis/admin-api/infra/demo02-category/update', // 修改接口
+                    url: base_path + '/admin-api/infra/demo02-category/update', // 修改接口
                     headers
                   },
                   body: [
@@ -85,7 +87,8 @@ export const demoDefaultBody_TREE = [
                       labelField: 'name',
                       valueField: 'id',
                       source: {
-                        url: '/apiAmis/admin-api/infra/demo02-category/list',
+                        url:
+                          base_path + '/admin-api/infra/demo02-category/list',
                         method: 'get',
                         headers
                       },
@@ -107,7 +110,7 @@ export const demoDefaultBody_TREE = [
             confirmText: '您确认要删除?',
             api: {
               method: 'delete',
-              url: '/apiAmis/admin-api/infra/demo02-category/delete?id=$id',
+              url: base_path + '/admin-api/infra/demo02-category/delete?id=$id',
               headers
             },
             id: 'u:45a0a1848451'
@@ -135,7 +138,7 @@ export const demoDefaultBody_TREE = [
               type: 'form',
               api: {
                 method: 'post',
-                url: '/apiAmis/admin-api/infra/demo02-category/create', // 新增接口
+                url: base_path + '/admin-api/infra/demo02-category/create', // 新增接口
                 headers
               },
               body: [
@@ -153,7 +156,7 @@ export const demoDefaultBody_TREE = [
                   labelField: 'name',
                   valueField: 'id',
                   source: {
-                    url: '/apiAmis/admin-api/infra/demo02-category/list',
+                    url: base_path + '/admin-api/infra/demo02-category/list',
                     method: 'get',
                     headers
                   },
@@ -181,7 +184,7 @@ export const demoDefaultBody_TREE = [
               type: 'form',
               api: {
                 method: 'post',
-                url: '/apiAmis/admin-api/infra/dynamic/create/1',
+                url: base_path + '/admin-api/infra/dynamic/create/1',
                 headers
               },
               body: [
