@@ -4,13 +4,13 @@ const _headers = {
 
 const props = window?.$wujie?.props; // 接收headers
 
-console.log('接收headers', props.headers)
+console.log('接收headers', props?.headers)
 
 const pro_url = 'http://122.51.179.83:9000'
 
 export const headers = {
     ..._headers,
-    ...props.headers
+    ...props?.headers || {}
 };
 
 export const base_path = 'apiAmis';
