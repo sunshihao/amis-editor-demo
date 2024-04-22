@@ -5,14 +5,13 @@ export const demoDefaultBody_TREE = [
     type: 'crud',
     api: {
       method: 'get',
-      url:
-        base_path +
-        '/admin-api/infra/demo02-category/list?pageNo=1&pageSize=10',
-      headers
+      url: base_path + '/admin-api/infra/demo02-category/list?pageNo=1&pageSize=10',
+      headers,
+      adaptor:
+        "const handleTree = (data, id, parentId, children) => {\r\n    if (!Array.isArray(data)) {\r\n        console.warn('data must be an array')\r\n        return []\r\n    }\r\n    const config = {\r\n        id: id || 'id',\r\n        parentId: parentId || 'parentId',\r\n        childrenList: children || 'children'\r\n    }\r\n    const childrenListMap = {}\r\n    const nodeIds = {}\r\n    const tree = []\r\n    for (const d of data) {\r\n        const parentId = d[config.parentId]\r\n        if (childrenListMap[parentId] == null) {\r\n            childrenListMap[parentId] = []\r\n        }\r\n        nodeIds[d[config.id]] = d\r\n        childrenListMap[parentId].push(d)\r\n    }\r\n    for (const d of data) {\r\n        const parentId = d[config.parentId]\r\n        if (nodeIds[parentId] == null) {\r\n            tree.push(d)\r\n        }\r\n    }\r\n    for (const t of tree) {\r\n        adaptToChildrenList(t)\r\n    }\r\n    function adaptToChildrenList(o) {\r\n        if (childrenListMap[o[config.id]] !== null) {\r\n            o[config.childrenList] = childrenListMap[o[config.id]]\r\n        }\r\n        if (o[config.childrenList]) {\r\n            for (const c of o[config.childrenList]) {\r\n                adaptToChildrenList(c)\r\n            }\r\n        }\r\n    }\r\n    return tree\r\n}\r\nreturn {\r\n    ...payload,\r\n    data: payload.data ? handleTree(payload.data, 'id', 'parentId', 'children') : (payload.data || [] )\r\n}"
     },
     deferApi: '/amis/api/mock2/crud/table6?parentId=${id}',
-    saveOrderApi: '/amis/api/mock2/form/saveData',
-    draggable: true,
+    // draggable: true,
     columns: [
       {
         name: 'id',
@@ -28,20 +27,22 @@ export const demoDefaultBody_TREE = [
         name: 'name',
         label: '名字',
         sortable: true,
-        searchable: true,
         type: 'text',
         toggled: true,
         id: 'u:f5ae9f30aa98',
         placeholder: '-'
       },
       {
+        type: 'text',
         name: 'createTime',
         label: '创建时间',
         sortable: true,
-        type: 'text',
         toggled: true,
-        id: 'u:aeff54d19d2c',
-        placeholder: '-'
+        id: 'u:1d28457fe590',
+        placeholder: '-',
+        popOver: false,
+        inline: true,
+        tpl: "${DATETOSTR(createTime,'YYYY-MM-DD hh:mm:ss')}"
       },
       {
         type: 'operation',
@@ -50,7 +51,6 @@ export const demoDefaultBody_TREE = [
         buttons: [
           {
             type: 'button',
-            icon: 'fa fa-pencil',
             actionType: 'dialog',
             dialog: {
               type: 'dialog',
@@ -87,13 +87,18 @@ export const demoDefaultBody_TREE = [
                       labelField: 'name',
                       valueField: 'id',
                       source: {
-                        url:
-                          base_path + '/admin-api/infra/demo02-category/list',
+                        url: base_path + '/admin-api/infra/demo02-category/list',
                         method: 'get',
-                        headers
+                        headers,
+                        adaptor:
+                          "const handleTree = (data, id, parentId, children) => {\r\n    const _root = { id: '0', name: '顶级分类', children: [] }\r\n    if (!Array.isArray(data)) {\r\n        console.warn('data must be an array')\r\n        return []\r\n    }\r\n    const config = {\r\n        id: id || 'id',\r\n        parentId: parentId || 'parentId',\r\n        childrenList: children || 'children'\r\n    }\r\n    const childrenListMap = {}\r\n    const nodeIds = {}\r\n    const tree = []\r\n    for (const d of data) {\r\n        const parentId = d[config.parentId]\r\n        if (childrenListMap[parentId] == null) {\r\n            childrenListMap[parentId] = []\r\n        }\r\n        nodeIds[d[config.id]] = d\r\n        childrenListMap[parentId].push(d)\r\n    }\r\n    for (const d of data) {\r\n        const parentId = d[config.parentId]\r\n        if (nodeIds[parentId] == null) {\r\n            tree.push(d)\r\n        }\r\n    }\r\n    for (const t of tree) {\r\n        adaptToChildrenList(t)\r\n    }\r\n    function adaptToChildrenList(o) {\r\n        if (childrenListMap[o[config.id]] !== null) {\r\n            o[config.childrenList] = childrenListMap[o[config.id]]\r\n        }\r\n        if (o[config.childrenList]) {\r\n            for (const c of o[config.childrenList]) {\r\n                adaptToChildrenList(c)\r\n            }\r\n        }\r\n    }\r\n    _root.children = tree\r\n    return [_root]\r\n}\r\nreturn {\r\n    ...payload,\r\n    data: payload.data ? handleTree(payload.data) : payload.data\r\n}"
                       },
                       showIcon: false,
-                      options: []
+                      options: [],
+                      required: true,
+                      enableNodePath: false,
+                      initiallyOpen: true,
+                      hideNodePathLabel: true
                     }
                   ],
                   id: 'u:6f8bf2172553'
@@ -101,11 +106,12 @@ export const demoDefaultBody_TREE = [
               ],
               id: 'u:517ec5106224'
             },
-            id: 'u:8ff22d526935'
+            id: 'u:8ff22d526935',
+            label: '编辑',
+            level: 'link'
           },
           {
             type: 'button',
-            icon: 'fa fa-times text-danger',
             actionType: 'ajax',
             confirmText: '您确认要删除?',
             api: {
@@ -113,7 +119,16 @@ export const demoDefaultBody_TREE = [
               url: base_path + '/admin-api/infra/demo02-category/delete?id=$id',
               headers
             },
-            id: 'u:45a0a1848451'
+            id: 'u:45a0a1848451',
+            label: '删除',
+            level: 'link',
+            themeCss: {
+              className: {
+                'font:default': {
+                  color: 'var(--colors-error-5)'
+                }
+              }
+            }
           }
         ],
         toggled: true,
@@ -146,7 +161,8 @@ export const demoDefaultBody_TREE = [
                   type: 'input-text',
                   name: 'name',
                   label: '名字',
-                  id: 'u:5194b2d73d7c'
+                  id: 'u:5194b2d73d7c',
+                  required: true
                 },
                 {
                   type: 'tree-select',
@@ -158,10 +174,15 @@ export const demoDefaultBody_TREE = [
                   source: {
                     url: base_path + '/admin-api/infra/demo02-category/list',
                     method: 'get',
-                    headers
+                    headers,
+                    adaptor:
+                      "const handleTree = (data, id, parentId, children) => {\r\n    const _root = { id: '0', name: '顶级分类', children: [] }\r\n    if (!Array.isArray(data)) {\r\n        console.warn('data must be an array')\r\n        return []\r\n    }\r\n    const config = {\r\n        id: id || 'id',\r\n        parentId: parentId || 'parentId',\r\n        childrenList: children || 'children'\r\n    }\r\n    const childrenListMap = {}\r\n    const nodeIds = {}\r\n    const tree = []\r\n    for (const d of data) {\r\n        const parentId = d[config.parentId]\r\n        if (childrenListMap[parentId] == null) {\r\n            childrenListMap[parentId] = []\r\n        }\r\n        nodeIds[d[config.id]] = d\r\n        childrenListMap[parentId].push(d)\r\n    }\r\n    for (const d of data) {\r\n        const parentId = d[config.parentId]\r\n        if (nodeIds[parentId] == null) {\r\n            tree.push(d)\r\n        }\r\n    }\r\n    for (const t of tree) {\r\n        adaptToChildrenList(t)\r\n    }\r\n    function adaptToChildrenList(o) {\r\n        if (childrenListMap[o[config.id]] !== null) {\r\n            o[config.childrenList] = childrenListMap[o[config.id]]\r\n        }\r\n        if (o[config.childrenList]) {\r\n            for (const c of o[config.childrenList]) {\r\n                adaptToChildrenList(c)\r\n            }\r\n        }\r\n    }\r\n    _root.children = tree\r\n    return [_root]\r\n}\r\nreturn {\r\n    ...payload,\r\n    data: payload.data ? handleTree(payload.data) : payload.data\r\n}"
                   },
                   showIcon: false,
-                  options: []
+                  required: true,
+                  enableNodePath: false,
+                  initiallyOpen: true,
+                  hideNodePathLabel: true
                 }
               ],
               id: 'u:6f8bf2172553'
@@ -174,74 +195,25 @@ export const demoDefaultBody_TREE = [
       {
         label: '导出',
         type: 'button',
-        actionType: 'dialog',
         level: 'success',
-        dialog: {
-          type: 'dialog',
-          title: '新增',
-          body: [
-            {
-              type: 'form',
-              api: {
-                method: 'post',
-                url: base_path + '/admin-api/infra/dynamic/create/1',
-                headers
-              },
-              body: [
-                {
-                  type: 'input-text',
-                  name: 'id',
-                  label: '岗位编号',
-                  id: 'u:ea1ac138c95c'
-                },
-                {
-                  type: 'input-text',
-                  name: 'name',
-                  label: '岗位名称',
-                  id: 'u:07709ef1d0c9'
-                },
-                {
-                  type: 'input-text',
-                  name: 'code',
-                  label: '岗位编码',
-                  id: 'u:746c5d648611'
-                },
-                {
-                  type: 'input-text',
-                  name: 'sort',
-                  label: '岗位顺序',
-                  id: 'u:6a7b006257f3'
-                },
-                {
-                  type: 'input-text',
-                  name: 'remark',
-                  label: '岗位备注',
-                  id: 'u:799610a0849f'
-                },
-                {
-                  type: 'select',
-                  name: 'status',
-                  label: '状态',
-                  id: 'u:e22112d1267d',
-                  multiple: false,
-                  options: [
-                    {
-                      label: 'A',
-                      value: '0'
-                    },
-                    {
-                      label: 'B',
-                      value: '1'
-                    }
-                  ]
+        id: 'u:b36b802a5777',
+        onEvent: {
+          click: {
+            weight: 0,
+            actions: [
+              {
+                ignoreError: false,
+                outputVar: 'responseResult',
+                actionType: 'ajax',
+                api: {
+                  url: base_path + '/admin-api/infra/demo02-category/export-excel?pageNo=1',
+                  method: 'get',
+                  headers
                 }
-              ],
-              id: 'u:d6b65df1295a'
-            }
-          ],
-          id: 'u:dc17266e9a67'
-        },
-        id: 'u:b36b802a5777'
+              }
+            ]
+          }
+        }
       },
       'bulkActions'
     ],
@@ -273,7 +245,7 @@ export const demoDefaultBody_TREE = [
                 {
                   type: 'input-date-range',
                   label: '创建时间',
-                  name: 'date-range',
+                  name: 'createTime',
                   id: 'u:843f3a84fa08',
                   size: 'md',
                   shortcuts: [],

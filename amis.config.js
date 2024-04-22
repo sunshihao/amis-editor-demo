@@ -33,7 +33,7 @@ module.exports = {
     allowList: [], // ignoreNodeModules为true时生效
     externals: [],
     projectDir: ['src'],
-    template: resolve('./src/index.html'), // 使用自己的html模板
+    template: resolve('./static/index.html'), // 使用自己的html模板
     // cssLoaderUrl: true,
     // cssLoaderUrlDir: 'editor/fontawesome-free',
     moduleRules: [], // 用于配置自定义loaders
@@ -55,7 +55,6 @@ module.exports = {
     cssSourceMap: false,
     closeHotReload: false, // 是否关闭热更新
     closeEditorClient: true, // 是否关闭自动注入editor
-    headers: {'Access-Control-Allow-Origin': '*'},
     // proxyTable: {
     //   /**
     //    * 将含有'/apiTest'路径的api代理到'http://api-test.com.cn'上，
@@ -76,7 +75,7 @@ module.exports = {
     },
     // 用于构建生产环境代码的相关配置信息
     NODE_ENV: 'production',
-    assetsRoot: resolve('./dist/demo-6.1.2'), // 打包后的文件绝对路径（物理路径）
+    assetsRoot: resolve('./dist/demo-6.1.3'), // 打包后的文件绝对路径（物理路径）
     assetsPublicPath: './', // 设置静态资源的引用路径（根域名+路径）
     assetsSubDirectory: '', // 资源引用二级路径
     productionSourceMap: false,

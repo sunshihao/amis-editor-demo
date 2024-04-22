@@ -29,9 +29,6 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: path => path.replace(new RegExp(`^/apiAmis`), '')
       }
-    },
-    headers: {
-      Authorization: 'Bearer 120a2f4612e14144b26c618305e42a67'
     }
   },
   resolve: {
