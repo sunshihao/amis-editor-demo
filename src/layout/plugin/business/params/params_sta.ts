@@ -154,6 +154,7 @@ export const demoDefaultBody_MST_STA = [
                                   base_path +
                                   '/admin-api/infra/demo03-student/demo03-course/list-by-student-id?studentId=$id',
                                 headers,
+                                "adaptor": "if (payload.code == 0) {\r\n    return {\r\n        ...payload,\r\n        data: {\r\n            demo03Courses: payload.data\r\n        }\r\n    }\r\n} else {\r\n    return payload\r\n}",
                               },
                               body: [
                                 {
@@ -163,7 +164,7 @@ export const demoDefaultBody_MST_STA = [
                                   showIndex: true,
                                   editable: true,
                                   id: 'table_course',
-                                  value: "$rows",
+                                  value: "$demo03Courses",
                                   columns: [
                                     {
                                       type: 'input-text',
