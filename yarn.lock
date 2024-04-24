@@ -3432,6 +3432,11 @@ base64-js@^1.3.1:
   resolved "https://registry.npmmirror.com/base64-js/-/base64-js-1.5.1.tgz#1b1b440160a5bf7ad40b650f095963481903930a"
   integrity sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==
 
+be-full@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.npmmirror.com/be-full/-/be-full-0.1.4.tgz#19052d46e81a4bc801ba1f1dfede34e59941389c"
+  integrity sha512-Nj3yBvk8rxhBhDv6YROxP9ynTA5H0l9lMjU+XqEAY4rTLJ68l2+n0geWCoeTqAxhOFedtbmYCpxFzMxMA8CnUg==
+
 big-integer@^1.6.17:
   version "1.6.52"
   resolved "https://registry.npmmirror.com/big-integer/-/big-integer-1.6.52.tgz#60a887f3047614a8e1bffe5d7173490a97dc8c85"

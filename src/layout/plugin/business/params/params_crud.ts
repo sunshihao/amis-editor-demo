@@ -1,4 +1,4 @@
-
+// TODO 改动为接口请求 本地性调试,已弃用
 import {headers, base_path} from './index';
 
 export const demoDefaultBody = [
@@ -306,11 +306,3 @@ export const demoDefaultBody = [
     regions: ['body']
   }
 ];
-
-// 默认code参数
-export const demoDefaultPage = {
-  type: 'page',
-  body: demoDefaultBody,
-  id: 'u:560eb8d924eb',
-  regions: ['body']
-};

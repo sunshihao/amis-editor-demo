@@ -1,3 +1,4 @@
+// TODO 改动为接口请求 本地性调试,已弃用
 import {headers, base_path} from './index';
 
 export const demoDefaultBody_MST_STA = [

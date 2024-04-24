@@ -14,11 +14,12 @@ import Layout1_2_v4 from './plugin/layout/Layout1_2_v4';
 import Layout_scroll_x from './plugin/layout/Layout_scroll_x';
 import Layout_scroll_y from './plugin/layout/Layout_scroll_y';
 import MyRenderer from './plugin/cust/MyRenderer';
-import template_crud from './plugin/business/template/Crud';
-import template_tree from './plugin/business/template/Tree';
-import template_mst_emb from './plugin/business/template/Mst_Emb';
-import template_mst_erp from './plugin/business/template/Mst_Erp';
-import template_mst_sta from './plugin/business/template/Mst_Sta';
+// import template_crud from './plugin/business/template/Crud';
+// import template_tree from './plugin/business/template/Tree';
+// import template_mst_emb from './plugin/business/template/Mst_Emb';
+// import template_mst_erp from './plugin/business/template/Mst_Erp';
+// import template_mst_sta from './plugin/business/template/Mst_Sta';
+// import template_New from './plugin'
 
 const LayoutList: Array<any> = [
   Layout1_1,
@@ -33,19 +34,17 @@ const LayoutList: Array<any> = [
   Layout1_2_v3,
   Layout2_1_v3,
   Layout1_2_v4,
-  // Layout_fixed_top,
-  // Layout_fixed_bottom,
-  // Layout_fixed,
   Layout_scroll_x,
   Layout_scroll_y,
   // 自定义组件
   MyRenderer,
   // 自定义业务组件
-  template_crud,
-  template_tree,
-  template_mst_emb,
-  template_mst_erp,
-  template_mst_sta
+  // template_crud,
+  // template_tree,
+  // template_mst_emb,
+  // template_mst_erp,
+  // template_mst_sta
+  // template_New
 ];
 
 export default LayoutList;

@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": "./",
     "module": "esnext",
     "target": "esnext",
     "lib": ["es6", "dom"],
@@ -14,9 +15,12 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "allowSyntheticDefaultImports": true,
-    "typeRoots": ["./node_modules/@types", "./typings"]
+    "typeRoots": ["./node_modules/@types", "./typings"],
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
-  "include": ["src/types/*.d.ts"],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/types/global.d.ts"],
   "exclude": [
     "node_modules"
   ],

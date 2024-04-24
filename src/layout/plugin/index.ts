@@ -11,15 +11,15 @@ import {getEventControlConfig} from 'amis-editor/lib/renderer/event-control/help
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {tipedLabel} from 'amis-editor-core';
 import {jsonToJsonSchema, EditorNodeType} from 'amis-editor-core';
-import {demoDefaultBody} from '../params/params_crud';
+import {demoDefaultBody} from './business/params/params_crud';
 
-export default class template_crud extends BasePlugin {
+export default class template_new extends BasePlugin {
   static id = 'template_crud';
   // 关联渲染器名字
   rendererName = 'page';
   $schema = '/schemas/PageSchema.json';
   // 组件名称
-  name = '单表(增删改查)';
+  name = 'XXX';
   // 只有顶级才会用到这个page组件
   description =
     '页面渲染器，页面的顶级入口。包含多个区域，您可以选择在不同的区域里面放置不同的渲染器。';
@@ -375,5 +375,3 @@ export default class template_crud extends BasePlugin {
     }
   }
 }
-
-// registerEditorPlugin(template_crud)

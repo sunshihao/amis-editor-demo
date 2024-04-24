@@ -23,11 +23,11 @@ export default defineConfig({
     cors: true,
     port: 8910,
     proxy: {
-      ['/apiAmis']: {
+      ['/admin-api']: {
         target: 'http://122.51.179.83:9000',
         ws: false,
         changeOrigin: true,
-        rewrite: path => path.replace(new RegExp(`^/apiAmis`), '')
+        rewrite: path => path.replace(new RegExp(`^/`), '')
       }
     }
   },

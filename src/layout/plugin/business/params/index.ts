@@ -1,5 +1,6 @@
+// TODO 改动为接口请求 本地性调试,已弃用
 const _headers = {
-  Authorization: 'Bearer cba6ef0908844fecb24b024de9a105f1'
+  Authorization: 'Bearer ddd2eb5c6b2d4870a297857535da0bc8'
 };
 
 const props = window?.$wujie?.props; // 接收headers

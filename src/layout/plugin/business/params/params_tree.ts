@@ -1,3 +1,4 @@
+// TODO 改动为接口请求 本地性调试,已弃用
 import {headers, base_path} from './index';
 
 export const demoDefaultBody_TREE = [
@@ -284,6 +285,8 @@ export const demoDefaultBody_TREE = [
     id: 'u:ee9b84d989a0'
   }
 ];
+
+console.log(JSON.stringify(demoDefaultBody_TREE))
 
 export const demoDefaultPage_TREE = {
   type: 'page',

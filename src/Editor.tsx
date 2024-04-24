@@ -1,14 +1,18 @@
 /* eslint-disable */
 import * as React from 'react';
-import {Editor, ShortcutKey, BasePlugin, setThemeConfig} from 'amis-editor';
-import {Select, uuid, Button} from 'amis';
+import {Editor, ShortcutKey, setThemeConfig} from 'amis-editor';
+import {uuid, Button} from 'amis';
 import {currentLocale} from 'i18n-runtime';
 import {Portal} from 'react-overlays';
 import LayoutList from './layout/index';
-import {cxdData} from 'amis-theme-editor-helper';
+import {antdData} from 'amis-theme-editor-helper';
+import FullScreen from './views/fullScreen';
+import template_new from './layout/plugin/index';
+import {getTemplateList} from './api';
+import {headers} from '@/utils/params';
 
 const i18nEnabled = false;
-setThemeConfig(cxdData);
+setThemeConfig(antdData);
 
 const schema = {
   type: 'page',
@@ -316,7 +320,9 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
     schema: localStorage.getItem('editting_schema')
       ? JSON.parse(localStorage.getItem('editting_schema')!)
       : schema,
-    curLanguage: currentLocale() // 获取当前语料类型
+    curLanguage: currentLocale(), // 获取当前语料类型
+    loadEditor: false,
+    templateLoadingTip: '模板加载中...'
   };
 
   constructor(props: any) {
@@ -331,8 +337,7 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
       };
     }
 
-    const type =
-      localStorage.getItem('editting_preview_type') || EditorType.EDITOR;
+    const type = localStorage.getItem('editting_preview_type') || EditorType.EDITOR;
 
     this.state.schema = this.getSchema(type);
   }
@@ -340,14 +345,49 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
   componentDidMount(): void {
     const props = window?.$wujie?.props;
 
-    console.log('props-----', props)
-
     if (props?.schema) {
       // 若是有值则进行默认赋值
       this.setState({
         schema: JSON.parse(props.schema)
       });
     }
+
+    this.initTemplatePlugin();
+  }
+
+  initTemplatePlugin() {
+    const that = this;
+
+    getTemplateList()
+      .then(res => {
+        res.map(item => {
+          const {templateName, description, scaffold} = item;
+
+          // headers 替换
+          const replaceRes = JSON.stringify(scaffold, (key, value) => {
+            if (key == 'headers') {
+              return headers;
+            }
+            return value;
+          });
+
+          class itemNew extends template_new {
+            name = templateName || 'define Name';
+            description = description || '';
+            scaffold: any = JSON.parse(replaceRes);
+          }
+          LayoutList.push(itemNew); //new Template(item)
+        });
+
+        that.setState({
+          loadEditor: true
+        });
+      })
+      .catch(err => {
+        that.setState({
+          loadEditor: true
+        });
+      });
   }
 
   getSchema(type: string) {
@@ -469,18 +509,16 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
   }
 
   render() {
-    const {preview, type, curLanguage, schema} = this.state;
+    const {preview, type, curLanguage, schema, loadEditor, templateLoadingTip} = this.state;
     return (
       <div className="Editor-inner">
         <Portal container={() => document.querySelector('#headerBar') as any}>
           <>
-            <div
-              className="Editor-view-mode-group-container"
-              style={{fontWeight: 'bold'}}
-            >
+            <div className="Editor-view-mode-group-container" style={{fontWeight: 'bold'}}>
               {window?.$wujie?.props.pageName || '页面名称'}
             </div>
             <div className="Editor-header-actions">
+              <FullScreen />
               <ShortcutKey />
               {i18nEnabled && (
                 <Button
@@ -499,14 +537,12 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
                   切换语料内容
                 </Button>
               )}
-
               {preview ? (
                 <></>
               ) : (
                 <div
                   className={`header-action-btn primary`}
                   onClick={() => {
-                    // 触发wujie保存
                     const props = window.$wujie?.props;
                     this.onSave(); // 触发原本缓存
                     window.$wujie?.bus.$emit(`save_${props.id}`, {
@@ -518,7 +554,6 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
                   保存
                 </div>
               )}
-
               <div
                 className={`header-action-btn ${preview ? 'primary' : ''}`}
                 onClick={() => {
@@ -530,8 +565,22 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
             </div>
           </>
         </Portal>
-
-        {this.renderEditor()}
+        {loadEditor ? (
+          this.renderEditor()
+        ) : (
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: '100%',
+              fontSize: '16px',
+              fontWeight: 'bold'
+            }}
+          >
+            { templateLoadingTip }
+          </div>
+        )}
       </div>
     );
   }

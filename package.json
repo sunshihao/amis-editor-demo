@@ -32,6 +32,7 @@
     "amis-formula": "6.3.0",
     "amis-ui": "6.3.0",
     "axios": "0.21.1",
+    "be-full": "^0.1.4",
     "copy-to-clipboard": "^3.2.0",
     "mobx": "4.15.7",
     "mobx-react": "6.3.1",
@@ -52,14 +53,14 @@
     "@types/react-router": "5.0.1",
     "@types/react-router-dom": "^5.3.3",
     "@vitejs/plugin-react": "^2.2.0",
-    "vite": "^4.3.9",
-    "vite-plugin-monaco-editor": "^1.1.0",
-    "vite-plugin-svgr": "^2.2.2",
     "acorn": "^8.8.2",
     "amis-widget-cli": "3.2.0",
     "monaco-editor-webpack-plugin": "6.0.0",
     "prettier": "^2.2.1",
     "sass": "^1.63.4",
-    "typescript": "^4.5.5"
+    "typescript": "^4.5.5",
+    "vite": "^4.3.9",
+    "vite-plugin-monaco-editor": "^1.1.0",
+    "vite-plugin-svgr": "^2.2.2"
   }
 }
