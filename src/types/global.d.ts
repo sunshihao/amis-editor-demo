@@ -1,5 +1,6 @@
 interface Window {
   $wujie: any;
+  ActiveXObject: any;
 }
 
 type AxiosHeaders =

@@ -1,5 +1,5 @@
 const _headers = {
-  Authorization: 'Bearer f8594e384be147229cc8eb145d0c7e59'
+  Authorization: 'Bearer e0a301492c424367a6be48d2467ff1f2'
 };
 
 const props = window?.$wujie?.props; // 接收headers

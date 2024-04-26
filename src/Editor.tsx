@@ -360,7 +360,7 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
 
     getTemplateList()
       .then(res => {
-        res.map(item => {
+        res.map((item: any) => {
           const {templateName, description, scaffold} = item;
 
           // headers 替换
@@ -368,13 +368,18 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
             if (key == 'headers') {
               return headers;
             }
+            // if (key == 'adaptor') { // 保持状态
+            //   return JSON.stringify(value);
+            // }
             return value;
           });
+
+          console.log('JSON.parse(replaceRes)', JSON.parse(replaceRes))
 
           class itemNew extends template_new {
             name = templateName || 'define Name';
             description = description || '';
-            scaffold: any = JSON.parse(replaceRes);
+            scaffold: any = JSON.parse(replaceRes); //scaffold
           }
           LayoutList.push(itemNew); //new Template(item)
         });

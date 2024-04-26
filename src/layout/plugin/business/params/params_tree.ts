@@ -286,7 +286,6 @@ export const demoDefaultBody_TREE = [
   }
 ];
 
-console.log(JSON.stringify(demoDefaultBody_TREE))
 
 export const demoDefaultPage_TREE = {
   type: 'page',

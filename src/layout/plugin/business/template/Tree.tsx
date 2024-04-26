@@ -9,7 +9,7 @@ import {getEventControlConfig} from 'amis-editor/lib/renderer/event-control/help
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {tipedLabel} from 'amis-editor-core';
 import {jsonToJsonSchema, EditorNodeType} from 'amis-editor-core';
-import {demoDefaultPage_TREE, demoDefaultBody_TREE} from '../params/params_tree';
+import {demoDefaultPage_TREE} from '../params/params_tree';
 
 export default class template_tree extends BasePlugin {
   static id = 'template_tree';
@@ -17,10 +17,10 @@ export default class template_tree extends BasePlugin {
   rendererName = 'page';
   $schema = '/schemas/PageSchema.json';
   // 组件名称
-  name = '树表(增删改查)';
+  name = '树表local';
   // 只有顶级才会用到这个page组件
   description =
-    '树表(增删改查)';
+    '树表local';
   // tags = '容器';
   tags = ['自定义', '业务页面'];
 
@@ -32,10 +32,9 @@ export default class template_tree extends BasePlugin {
     type: 'page',
     className: 'text-left b-a',
     asideClassName: 'w-xs',
-    title: '标题',
-    subTitle: '副标题',
-    aside: '边栏',
-    body: demoDefaultBody_TREE
+    title: 'Tree',
+    subTitle: 'Tree',
+    aside: 'Tree',
   };
 
   events: RendererPluginEvent[] = [
