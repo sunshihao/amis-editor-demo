@@ -286,3 +286,8 @@ $disabled-bg-color: #f7f7f9; // 禁用背景颜色
 #root > .a-Select-popover {
   z-index: 1500;
 }
+
+// TODO 全局生效
+.ae-Preview-inner {
+  box-shadow: none !important;
+}

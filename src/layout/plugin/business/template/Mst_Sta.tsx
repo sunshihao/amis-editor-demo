@@ -28,15 +28,15 @@ export default class template_mst_sta extends BasePlugin {
   pluginIcon = 'flex-container-plugin';
 
   scaffold: any = demoDefaultPage_MST_STA;
-  previewSchema: any = {
-    type: 'page',
-    className: 'text-left b-a',
-    asideClassName: 'w-xs',
-    title: '标题',
-    subTitle: '副标题',
-    aside: '边栏',
-    body: demoDefaultBody_MST_STA
-  };
+  // previewSchema: any = {
+  //   type: 'page',
+  //   className: 'text-left b-a',
+  //   asideClassName: 'w-xs',
+  //   title: '标题',
+  //   subTitle: '副标题',
+  //   aside: '边栏',
+  //   body: demoDefaultBody_MST_STA
+  // };
 
   events: RendererPluginEvent[] = [
     {

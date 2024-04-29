@@ -1,7 +1,9 @@
 // TODO 改动为接口请求 本地性调试,已弃用
 import {headers} from './index';
 
-export const demoDefaultBody_MST_STA = [
+const headers = ''
+
+const demoDefaultBody_MST_STA = 
   {
     type: 'page',
     body: [
@@ -10,7 +12,7 @@ export const demoDefaultBody_MST_STA = [
         api: {
           method: 'get',
           url: '/admin-api/infra/demo03-student/page?pageNo=1&pageSize=10',
-          headers,
+          headers: headers,
           adaptor:
             'if (!payload.data.list) {\r\n  payload.data.list = []\r\n}\r\nreturn {\r\n  ...payload,\r\n}'
         },
@@ -108,7 +110,7 @@ export const demoDefaultBody_MST_STA = [
                       api: {
                         method: 'post',
                         url: '/admin-api/infra/demo03-student/create',
-                        headers
+                        headers: headers
                       },
                       body: [
                         {
@@ -159,96 +161,81 @@ export const demoDefaultBody_MST_STA = [
                           required: true
                         },
                         {
-                          type: 'tabs',
-                          tabs: [
+                          type: 'service',
+                          api: {
+                            method: 'get',
+                            url: '/admin-api/infra/demo03-student/demo03-grade/get-by-student-id?studentId=$id',
+                            headers: headers,
+                            adaptor:
+                              'if (payload.code == 0) {\r\n    return {\r\n        ...payload,\r\n        data: {\r\n            demo03Grade: {\r\n                ...payload.data\r\n            }\r\n        }\r\n    }\r\n}\r\nreturn {\r\n    ...payload\r\n}'
+                          },
+                          body: {
+                            type: 'combo',
+                            label: '学生班级',
+                            require: true,
+                            name: 'demo03Grade',
+                            items: [
+                              {
+                                type: 'input-text',
+                                label: '名字',
+                                name: 'name',
+                                value: '${demo03Grade.name}',
+                                id: 'u:d51b8a6e1f9f',
+                                placeholder: '请输入',
+                                required: true
+                              },
+                              {
+                                type: 'input-text',
+                                label: '班主任',
+                                name: 'teacher',
+                                value: '${demo03Grade.teacher}',
+                                id: 'u:da320a735efc',
+                                required: true,
+                                placeholder: '请输入'
+                              }
+                            ],
+                            id: 'u:4b0f1612fb28'
+                          }
+                        },
+                        {
+                          type: 'service',
+                          api: {
+                            method: 'get',
+                            url: '/admin-api/infra/demo03-student/demo03-course/list-by-student-id?studentId=$id',
+                            headers: headers,
+                            adaptor:
+                              'if (payload.code == 0) {\r\n    return {\r\n        ...payload,\r\n        data: {\r\n            demo03Courses: payload.data\r\n        }\r\n    }\r\n} else {\r\n    return payload\r\n}'
+                          },
+                          body: [
                             {
-                              title: '学生课程',
-                              body: [
+                              label: '学生课程',
+                              type: 'input-table',
+                              name: 'demo03Courses',
+                              addable: true,
+                              showIndex: true,
+                              editable: true,
+                              id: 'table_course',
+                              value: '$demo03Courses',
+                              columns: [
                                 {
-                                  type: 'service',
-                                  api: {
-                                    method: 'get',
-                                    url: '/admin-api/infra/demo03-student/demo03-course/list-by-student-id?studentId=$id',
-                                    headers,
-                                    adaptor:
-                                      'if (payload.code == 0) {\r\n    return {\r\n        ...payload,\r\n        data: {\r\n            demo03Courses: payload.data\r\n        }\r\n    }\r\n} else {\r\n    return payload\r\n}'
-                                  },
-                                  body: [
-                                    {
-                                      type: 'input-table',
-                                      name: 'demo03Courses',
-                                      addable: true,
-                                      showIndex: true,
-                                      editable: true,
-                                      id: 'table_course',
-                                      value: '$demo03Courses',
-                                      columns: [
-                                        {
-                                          type: 'input-text',
-                                          label: '名字',
-                                          name: 'name',
-                                          id: 'u:0a14ea5a2167',
-                                          required: true
-                                        },
-                                        {
-                                          type: 'input-text',
-                                          label: '分数',
-                                          name: 'score',
-                                          id: 'u:40c7918139e6',
-                                          required: true
-                                        }
-                                      ]
-                                    }
-                                  ]
-                                }
-                              ],
-                              id: 'u:e4cd9b76a7a6'
-                            },
-                            {
-                              title: '学生班级',
-                              body: [
+                                  type: 'input-text',
+                                  label: '名字',
+                                  name: 'name',
+                                  id: 'u:0a14ea5a2167',
+                                  required: true
+                                },
                                 {
-                                  type: 'service',
-                                  api: {
-                                    method: 'get',
-                                    url: '/admin-api/infra/demo03-student/demo03-grade/get-by-student-id?studentId=$id',
-                                    headers,
-                                    adaptor:
-                                      'if (payload.code == 0) {\r\n    return {\r\n        ...payload,\r\n        data: {\r\n            demo03Grade: {\r\n                ...payload.data\r\n            }\r\n        }\r\n    }\r\n}\r\nreturn {\r\n    ...payload\r\n}'
-                                  },
-                                  body: {
-                                    type: 'combo',
-                                    name: 'demo03Grade',
-                                    items: [
-                                      {
-                                        type: 'input-text',
-                                        label: '名字',
-                                        name: 'name',
-                                        value: '${demo03Grade.name}',
-                                        id: 'u:d51b8a6e1f9f',
-                                        placeholder: '请输入',
-                                        required: true
-                                      },
-                                      {
-                                        type: 'input-text',
-                                        label: '班主任',
-                                        name: 'teacher',
-                                        value: '${demo03Grade.teacher}',
-                                        id: 'u:da320a735efc',
-                                        required: true,
-                                        placeholder: '请输入'
-                                      }
-                                    ],
-                                    id: 'u:4b0f1612fb28'
-                                  }
+                                  type: 'input-text',
+                                  label: '分数',
+                                  name: 'score',
+                                  id: 'u:40c7918139e6',
+                                  required: true
                                 }
-                              ],
-                              id: 'u:8c8fcb60e883'
+                              ]
                             }
-                          ],
-                          mountOnEnter: true,
-                          id: 'u:a40fe12dceb0'
+                          ]
                         }
+                      
                       ],
                       id: 'u:58c8732187fd',
                       actions: [
@@ -289,7 +276,7 @@ export const demoDefaultBody_MST_STA = [
                 api: {
                   method: 'delete',
                   url: '/admin-api/infra/demo03-student/delete?id=$id',
-                  headers
+                  headers: headers
                 },
                 id: 'u:8cca9431be2e',
                 themeCss: {
@@ -330,7 +317,7 @@ export const demoDefaultBody_MST_STA = [
                     api: {
                       url: '/admin-api/infra/demo03-student/export-excel?pageNo=1',
                       method: 'get',
-                      headers
+                      headers: headers
                     }
                   }
                 ]
@@ -353,7 +340,7 @@ export const demoDefaultBody_MST_STA = [
                   api: {
                     method: 'post',
                     url: '/admin-api/infra/demo03-student/create',
-                    headers
+                    headers: headers
                   },
                   body: [
                     {
@@ -404,72 +391,57 @@ export const demoDefaultBody_MST_STA = [
                       required: true
                     },
                     {
-                      type: 'tabs',
-                      tabs: [
+                      type: 'combo',
+                      name: 'demo03Grade',
+                      label: '学生班级',
+                      required: true,
+                      items: [
                         {
-                          title: '学生课程',
-                          body: [
-                            {
-                              type: 'input-table',
-                              name: 'demo03Courses',
-                              addable: true,
-                              showIndex: true,
-                              editable: true,
-                              id: 'table_course',
-                              value: [],
-                              columns: [
-                                {
-                                  type: 'input-text',
-                                  label: '名字',
-                                  name: 'name',
-                                  id: 'u:c25c77792921',
-                                  required: true
-                                },
-                                {
-                                  type: 'input-text',
-                                  label: '分数',
-                                  name: 'score',
-                                  id: 'u:75ca7ba434f3',
-                                  required: true
-                                }
-                              ]
-                            }
-                          ],
-                          id: 'u:e4cd9b76a7a6'
+                          type: 'input-text',
+                          label: '名字',
+                          name: 'name',
+                          id: 'u:e021016fe96c',
+                          placeholder: '请输入',
+                          required: true
                         },
                         {
-                          title: '学生班级',
-                          body: [
-                            {
-                              type: 'combo',
-                              name: 'demo03Grade',
-                              items: [
-                                {
-                                  type: 'input-text',
-                                  label: '名字',
-                                  name: 'name',
-                                  id: 'u:e021016fe96c',
-                                  placeholder: '请输入',
-                                  required: true
-                                },
-                                {
-                                  type: 'input-text',
-                                  label: '班主任',
-                                  name: 'teacher',
-                                  id: 'u:355e28779fea',
-                                  required: true,
-                                  placeholder: '请输入'
-                                }
-                              ],
-                              id: 'u:c300ab60fa8e'
-                            }
-                          ],
-                          id: 'u:8c8fcb60e883'
+                          type: 'input-text',
+                          label: '班主任',
+                          name: 'teacher',
+                          id: 'u:355e28779fea',
+                          required: true,
+                          placeholder: '请输入'
                         }
                       ],
-                      mountOnEnter: true,
-                      id: 'u:d5a48b41e061'
+                      id: 'u:c300ab60fa8e'
+                    },
+                    {
+                      type: 'input-table',
+                      name: 'demo03Courses',
+                      addable: true,
+                      label: '学生课程',
+                      showIndex: true,
+                      editable: true,
+                      id: 'table_course',
+                      value: [],
+                      columns: [
+                        {
+                          type: 'input-text',
+                          label: '名字',
+                          name: 'name',
+                          id: 'u:c25c77792921',
+                          required: true
+                        },
+                        {
+                          type: 'input-text',
+                          label: '分数',
+                          name: 'score',
+                          id: 'u:75ca7ba434f3',
+                          required: true
+                        }
+                      ]
                     }
+                    
                   ],
                   id: 'u:fb2d57e7950e',
                   actions: [
@@ -622,13 +594,13 @@ export const demoDefaultBody_MST_STA = [
             }
           ],
           feat: 'Insert',
-          wrapWithPanel: false,
-          className: 'm-b'
+          wrapWithPanel: false
         },
         filterTogglable: true,
         pageField: 'pageNo',
         perPageField: 'pageSize',
         syncResponse2Query: false,
+        bodyClassName: 'p-r p-l',
         id: 'u:f4c7c1e12ce4'
       }
     ],
@@ -655,22 +627,18 @@ export const demoDefaultBody_MST_STA = [
         'align-items': 'center !important',
         'justify-content': 'space-between !important',
         'flex-direction': 'row !important',
-        'border-bottom': '1px solid #F4F5F7'
+        'border-bottom': '2px solid #f7f7f9'
       },
       '.collapse_content': {
         padding: '20px'
       },
       '.collapse_body': {
-        'border-bottom': '10px solid #F4F5F7',
-        
-        
-      },
-      '.ae-Preview': {
-        'box-shadow': 'none !important'
+        'border-bottom': '10px solid #F4F5F7'
       }
     }
   }
-];
+
+console.log(JSON.stringify(demoDefaultBody_MST_STA))  
 
 export const demoDefaultPage_MST_STA = {
   type: 'page',
