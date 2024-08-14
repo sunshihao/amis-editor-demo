@@ -5,7 +5,6 @@ import {
   getSchemaTpl,
   defaultValue
 } from 'amis-editor-core';
-// import {registerEditorPlugin} from 'amis-editor';
 
 import {getEventControlConfig} from 'amis-editor/lib/renderer/event-control/helper';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
@@ -30,15 +29,6 @@ export default class template_crud extends BasePlugin {
   pluginIcon = 'flex-container-plugin';
 
   scaffold: any = demoDefaultBody;
-  // previewSchema: any = {
-  //   type: 'page',
-  //   className: 'text-left b-a',
-  //   asideClassName: 'w-xs',
-  //   title: '标题',
-  //   subTitle: '副标题',
-  //   aside: '边栏',
-  //   body: demoDefaultBody
-  // };
 
   events: RendererPluginEvent[] = [
     {
@@ -376,4 +366,3 @@ export default class template_crud extends BasePlugin {
   }
 }
 
-// registerEditorPlugin(template_crud)

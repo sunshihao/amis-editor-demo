@@ -1,9 +1,9 @@
 // TODO 改动为接口请求 本地性调试,已弃用
-import {headers} from './index';
+// import {headers} from './index';
 
 const headers = ''
 
-const demoDefaultBody_MST_STA = 
+export const demoDefaultBody_MST_STA = 
   {
     type: 'page',
     body: [
@@ -637,8 +637,6 @@ const demoDefaultBody_MST_STA =
       }
     }
   }
-
-console.log(JSON.stringify(demoDefaultBody_MST_STA))  
 
 export const demoDefaultPage_MST_STA = {
   type: 'page',
