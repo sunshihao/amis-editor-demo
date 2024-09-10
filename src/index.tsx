@@ -2,11 +2,8 @@
  * @file entry of this example.
  * @author fex
  */
-// import {StrictMode} from 'react';
 import App from './App';
 import ReactDOM from 'react-dom/client';
-
-//
 import '@fortawesome/fontawesome-free/css/all.css';
 import '@fortawesome/fontawesome-free/css/v4-shims.css';
 // import 'amis/lib/themes/default.css';
@@ -21,10 +18,4 @@ const rootElement = document.getElementById('root');
 
 const root = ReactDOM.createRoot(rootElement!);
 
-root.render(
-  //   <StrictMode>
-  <App />
-  //   </StrictMode>
-);
-
-// ReactDOM.render(<App />, document.getElementById('rootAmis'));
+root.render(<App />);
