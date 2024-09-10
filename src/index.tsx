@@ -2,9 +2,10 @@
  * @file entry of this example.
  * @author fex
  */
-import * as React from 'react';
-import ReactDOM from 'react-dom';
+// import {StrictMode} from 'react';
 import App from './App';
+import ReactDOM from 'react-dom/client';
+
 //
 import '@fortawesome/fontawesome-free/css/all.css';
 import '@fortawesome/fontawesome-free/css/v4-shims.css';
@@ -14,5 +15,16 @@ import 'amis/lib/helper.css';
 import 'amis/sdk/iconfont.css';
 import 'amis-editor-core/lib/style.css';
 import './style.scss';
+import React from 'react';
 
-ReactDOM.render(<App />, document.getElementById('rootAmis'));
+const rootElement = document.getElementById('root');
+
+const root = ReactDOM.createRoot(rootElement!);
+
+root.render(
+  //   <StrictMode>
+  <App />
+  //   </StrictMode>
+);
+
+// ReactDOM.render(<App />, document.getElementById('rootAmis'));

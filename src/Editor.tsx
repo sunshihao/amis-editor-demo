@@ -363,71 +363,36 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
   initTemplatePlugin(props: any) {
     const that = this;
 
-    if (props?.templateList) {
-      JSON.parse(props?.templateList).map((item: any) => {
-        const {templateName, description, scaffold} = item;
+    getTemplateList()
+      .then(res => {
+        res.map((item: any, index: Number) => {
+          const {templateName, description, scaffold} = item;
 
-        // headers 替换
-        const replaceRes = JSON.stringify(scaffold, (key, value) => {
-          if (key == 'headers') {
-            return headers;
-          }
-          // if (key == 'adaptor') { // 保持状态
-          //   return JSON.stringify(value);
-          // }
-          return value;
-        });
-
-        console.log('JSON.parse(replaceRes)', JSON.parse(replaceRes));
-
-        class itemNew extends template_new {
-          name = templateName || 'define Name';
-          description = description || '';
-          scaffold: any = JSON.parse(replaceRes); //scaffold
-        }
-        LayoutList.push(itemNew); //new Template(item)
-      });
-
-      that.setState({
-        loadEditor: true
-      });
-    } else {
-      getTemplateList()
-        .then(res => {
-          res.map((item: any) => {
-            const {templateName, description, scaffold} = item;
-
-            // headers 替换
-            const replaceRes = JSON.stringify(scaffold, (key, value) => {
-              if (key == 'headers') {
-                return headers;
-              }
-              // if (key == 'adaptor') { // 保持状态
-              //   return JSON.stringify(value);
-              // }
-              return value;
-            });
-
-            console.log('JSON.parse(replaceRes)', JSON.parse(replaceRes));
-
-            class itemNew extends template_new {
-              name = templateName || 'define Name';
-              description = description || '';
-              scaffold: any = JSON.parse(replaceRes); //scaffold
+          // headers 替换
+          const replaceRes = JSON.stringify(scaffold, (key, value) => {
+            if (key == 'headers') {
+              return headers;
             }
-            LayoutList.push(itemNew); //new Template(item)
+            return value;
           });
 
-          that.setState({
-            loadEditor: true
-          });
-        })
-        .catch(err => {
-          that.setState({
-            loadEditor: true
-          });
+          class itemNew extends template_new {
+            name = templateName || 'define Name';
+            description = description || '';
+            scaffold: any = JSON.parse(replaceRes); //scaffold
+          }
+          LayoutList.push(itemNew); //new Template(item)
         });
-    }
+
+        that.setState({
+          loadEditor: true
+        });
+      })
+      .catch(err => {
+        that.setState({
+          loadEditor: true
+        });
+      });
   }
 
   getSchema(type: string) {
