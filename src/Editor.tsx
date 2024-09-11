@@ -9,6 +9,7 @@ import FullScreen from './views/fullScreen';
 import template_new from './layout/plugin/index';
 import {headers} from '@/utils/params';
 import {schema, schemas, variableSchemas, variableDefaultData} from '@/utils';
+import request from '@/utils/request'
 
 const i18nEnabled = false; // 国际化
 setThemeConfig(antdData);
@@ -266,6 +267,8 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
         }}
         amisEnv={
           {
+            // TODO url过滤
+            fetcher: request,
             variable: {
               id: 'appVariables',
               namespace: 'appVariables',
