@@ -10,10 +10,12 @@ import FullScreen from './views/fullScreen';
 import template_new from './layout/plugin/index';
 import {getTemplateList} from './api';
 import {headers} from '@/utils/params';
+import {useEffect} from 'react';
 
 const i18nEnabled = false;
 setThemeConfig(antdData);
 
+// 默认参数
 const schema = {
   type: 'page',
   title: 'Simple Form Page',
@@ -322,7 +324,9 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
       : schema,
     curLanguage: currentLocale(), // 获取当前语料类型
     loadEditor: false,
-    templateLoadingTip: '模板加载中...'
+    templateLoadingTip: '模板加载中...',
+    timer: null
+    // 新增参数
   };
 
   constructor(props: any) {
@@ -336,31 +340,72 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
         }
       };
     }
-
     const type = localStorage.getItem('editting_preview_type') || EditorType.EDITOR;
-
     this.state.schema = this.getSchema(type);
   }
 
+  useEvent(event: string, handler: EventListener, passive = false) {
+    window.addEventListener(event, handler, passive);
+  }
+
+  isString(v: any) {
+    return Object.prototype.toString.call(v) === '[object String]';
+  }
+
+  postMsg(msg: any) {
+    const str = this.isString(msg) ? msg : JSON.stringify(msg);
+    window.parent?.postMessage(str, '*');
+  }
+
+  inited = false;
+
+  obj: any;
+
   componentDidMount(): void {
-    const props = window?.$wujie?.props;
+    this.initTemplatePlugin(); // 初始化模板信息
 
-    if (props?.templateList) {
-      console.log('---', props?.templateList);
-    }
-
-    if (props?.schema) {
-      // 若是有值则进行默认赋值
+    if (!this.state.timer) {
       this.setState({
-        schema: JSON.parse(props.schema)
+        timer: window.addEventListener('message', event => {
+          let data = (event as any).data;
+
+          if (!data) return;
+
+          if (this.isString(data) && data.startsWith('{')) {
+            data = JSON.parse(data);
+          }
+
+          if (data.type === 'setSchema') {
+            this.inited = true; // TODO state
+            this.obj = data.data;
+            this.setState({
+              schema: data.data
+            });
+          } else if (data.type === 'alert') {
+            alert(data.message);
+          } else if (data.type === 'toast') {
+            const level: string = data.level || 'info';
+            console.log('level', level);
+          }
+        })
       });
     }
 
-    this.initTemplatePlugin(props);
+    if (!this.inited) {
+      this.inited = true;
+      this.postMsg('amis-editor-inited');
+    }
+  }
+
+  // 页面销毁时清除监听
+  componentWillUnmount(): void {
+    if (this.state.timer) {
+      window.removeEventListener('message', this.state.timer);
+    }
   }
 
   // 模板设置初始化
-  initTemplatePlugin(props: any) {
+  initTemplatePlugin() {
     const that = this;
 
     getTemplateList()
