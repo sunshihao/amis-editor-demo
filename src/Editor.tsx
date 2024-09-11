@@ -1,4 +1,3 @@
-/* eslint-disable */
 import * as React from 'react';
 import {Editor, ShortcutKey, setThemeConfig} from 'amis-editor';
 import {uuid, Button} from 'amis';
@@ -8,284 +7,15 @@ import LayoutList from './layout/index';
 import {antdData} from 'amis-theme-editor-helper';
 import FullScreen from './views/fullScreen';
 import template_new from './layout/plugin/index';
-import {getTemplateList} from './api';
 import {headers} from '@/utils/params';
-import {useEffect} from 'react';
+import {schema, schemas, variableSchemas, variableDefaultData} from '@/utils';
 
-const i18nEnabled = false;
+const i18nEnabled = false; // 国际化
 setThemeConfig(antdData);
-
-// 默认参数
-const schema = {
-  type: 'page',
-  title: 'Simple Form Page',
-  regions: ['body'],
-  body: [
-    {
-      type: 'form',
-      body: [
-        {
-          type: 'input-text',
-          name: 'a',
-          label: 'Text'
-        }
-      ]
-    }
-  ]
-};
 
 const formSchema = {
   type: 'doc-entity',
   fields: []
-};
-
-const schemas = [
-  {
-    type: 'object',
-    properties: {
-      'amisUser': {
-        type: 'object',
-        title: '用户信息',
-        properties: {
-          id: {
-            type: 'string',
-            title: '用户ID'
-          },
-          name: {
-            type: 'string',
-            title: '用户名'
-          },
-          email: {
-            type: 'string',
-            title: '邮箱'
-          },
-          nickName: {
-            type: 'string',
-            title: '昵称'
-          },
-          phone: {
-            type: 'string',
-            title: '手机号'
-          },
-          avatar: {
-            type: 'string',
-            title: '用户头像'
-          }
-        }
-      },
-      'amisApp': {
-        type: 'object',
-        title: '应用信息',
-        properties: {
-          id: {
-            type: 'string',
-            title: '应用ID'
-          },
-          name: {
-            type: 'string',
-            title: '应用名称'
-          },
-          logo: {
-            type: 'string',
-            title: '应用Logo'
-          },
-          env: {
-            type: 'string',
-            title: '当前运行环境'
-          }
-        }
-      },
-      'amisCompany': {
-        type: 'object',
-        title: '组织信息',
-        properties: {
-          id: {
-            type: 'string',
-            title: '组织ID'
-          },
-          name: {
-            type: 'string',
-            title: '组织名称'
-          },
-          logo: {
-            type: 'string',
-            title: '组织Logo'
-          },
-          key: {
-            type: 'string',
-            title: '组织标识'
-          }
-        }
-      },
-      'window:location': {
-        type: 'object',
-        title: '浏览器变量',
-        properties: {
-          href: {
-            type: 'string',
-            title: 'href'
-          },
-          origin: {
-            type: 'string',
-            title: 'origin'
-          },
-          protocol: {
-            type: 'string',
-            title: 'protocol'
-          },
-          host: {
-            type: 'string',
-            title: 'host'
-          },
-          hostname: {
-            type: 'string',
-            title: 'hostname'
-          },
-          port: {
-            type: 'string',
-            title: 'port'
-          },
-          pathname: {
-            type: 'string',
-            title: 'pathname'
-          },
-          search: {
-            type: 'string',
-            title: 'search'
-          },
-          hash: {
-            type: 'string',
-            title: 'hash'
-          }
-        }
-      }
-    }
-  },
-  {
-    type: 'object',
-    properties: {
-      __query: {
-        title: '页面入参',
-        type: 'object',
-        required: [],
-        properties: {
-          name: {
-            type: 'string',
-            title: '用户名'
-          }
-        }
-      },
-      __page: {
-        title: '页面变量',
-        type: 'object',
-        required: [],
-        properties: {
-          num: {
-            type: 'number',
-            title: '数量'
-          }
-        }
-      }
-    }
-  }
-];
-
-const variableSchemas = {
-  type: 'object',
-  $id: 'appVariables',
-  properties: {
-    ProductName: {
-      type: 'string',
-      title: '产品名称',
-      default: '对象存储'
-    },
-    Banlance: {
-      type: 'number',
-      title: '账户余额',
-      default: '0.00'
-    },
-    ProductNum: {
-      type: 'integer',
-      title: '产品数量',
-      default: '0.00'
-    },
-    isOnline: {
-      type: 'boolean',
-      title: '是否线上环境',
-      default: 'false'
-    },
-    ProductList: {
-      type: 'array',
-      items: {
-        type: 'string',
-        title: '产品名称'
-      },
-      title: '产品列表',
-      default: '["BOS", "CFS", "PFS", "CloudFlow", "MongoDB"]'
-    },
-    PROFILE: {
-      type: 'object',
-      title: '个人信息',
-      properties: {
-        FirstName: {
-          type: 'string',
-          title: '名字'
-        },
-        Age: {
-          type: 'integer',
-          title: '年龄'
-        },
-        Address: {
-          type: 'object',
-          title: '地址',
-          required: ['street', 'postcode'],
-          properties: {
-            street: {
-              type: 'string',
-              title: '街道名称'
-            },
-            postcode: {
-              type: 'number',
-              title: '邮编'
-            }
-          }
-        }
-      }
-    }
-  },
-  default: {
-    ProductName: 'BCC',
-    Banlance: 1234.888,
-    ProductNum: 10,
-    isOnline: false,
-    ProductList: ['BCC', 'BOS', 'VPC'],
-    PROFILE: {
-      FirstName: 'Amis',
-      Age: 18,
-      Address: {
-        street: 'ShangDi',
-        postcode: 100001
-      }
-    }
-  }
-};
-
-const variableDefaultData = {
-  appVariables: {
-    ProductName: 'BCC',
-    Banlance: 1234.888,
-    ProductNum: 10,
-    isOnline: false,
-    ProductList: ['BCC', 'BOS', 'VPC'],
-    PROFILE: {
-      FirstName: 'Amis',
-      Age: 18,
-      Address: {
-        street: 'ShangDi',
-        postcode: 100001
-      }
-    }
-  }
 };
 
 const variables: any = [
@@ -304,17 +34,6 @@ const EditorType = {
   FORM: 'form'
 };
 
-const editorLanguages = [
-  {
-    label: '简体中文',
-    value: 'zh-CN'
-  },
-  {
-    label: 'English',
-    value: 'en-US'
-  }
-];
-
 export default class AMisSchemaEditor extends React.Component<any, any> {
   state: any = {
     preview: localStorage.getItem('editting_preview') ? true : false,
@@ -325,8 +44,10 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
     curLanguage: currentLocale(), // 获取当前语料类型
     loadEditor: false,
     templateLoadingTip: '模板加载中...',
-    timer: null
-    // 新增参数
+    timer: null,
+    template: null,
+    settings: null,
+    title: '页面名称'
   };
 
   constructor(props: any) {
@@ -344,10 +65,6 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
     this.state.schema = this.getSchema(type);
   }
 
-  useEvent(event: string, handler: EventListener, passive = false) {
-    window.addEventListener(event, handler, passive);
-  }
-
   isString(v: any) {
     return Object.prototype.toString.call(v) === '[object String]';
   }
@@ -362,8 +79,6 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
   obj: any;
 
   componentDidMount(): void {
-    this.initTemplatePlugin(); // 初始化模板信息
-
     if (!this.state.timer) {
       this.setState({
         timer: window.addEventListener('message', event => {
@@ -376,11 +91,17 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
           }
 
           if (data.type === 'setSchema') {
-            this.inited = true; // TODO state
+            this.inited = true;
             this.obj = data.data;
+
             this.setState({
-              schema: data.data
+              schema: data.data,
+              template: data.templateList,
+              // settings: data.settings,
+              title: data.title
             });
+
+            this.initTemplatePlugin(data.templateList); // 初始化模板信息
           } else if (data.type === 'alert') {
             alert(data.message);
           } else if (data.type === 'toast') {
@@ -405,39 +126,33 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
   }
 
   // 模板设置初始化
-  initTemplatePlugin() {
+  initTemplatePlugin(templateList: Array<any>) {
     const that = this;
 
-    getTemplateList()
-      .then(res => {
-        res.map((item: any, index: Number) => {
-          const {templateName, description, scaffold} = item;
+    if (Array.isArray(templateList) && templateList.length) {
+      templateList.map((item: any, index: Number) => {
+        const {templateName, description, scaffold} = item;
 
-          // headers 替换
-          const replaceRes = JSON.stringify(scaffold, (key, value) => {
-            if (key == 'headers') {
-              return headers;
-            }
-            return value;
-          });
-
-          class itemNew extends template_new {
-            name = templateName || 'define Name';
-            description = description || '';
-            scaffold: any = JSON.parse(replaceRes); //scaffold
+        // headers 替换
+        const replaceRes = JSON.stringify(scaffold, (key, value) => {
+          if (key == 'headers') {
+            return headers;
           }
-          LayoutList.push(itemNew); //new Template(item)
+          return value;
         });
 
-        that.setState({
-          loadEditor: true
-        });
-      })
-      .catch(err => {
-        that.setState({
-          loadEditor: true
-        });
+        class itemNew extends template_new {
+          name = templateName || 'define Name';
+          description = description || '';
+          scaffold: any = JSON.parse(replaceRes); //scaffold
+        }
+        LayoutList.push(itemNew);
       });
+
+      that.setState({
+        loadEditor: true
+      });
+    }
   }
 
   getSchema(type: string) {
@@ -512,6 +227,18 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
     });
   };
 
+  // 触发保存操作
+  onSaveSchema = () => {
+    this.onSave();
+
+    const res = {
+      type: 'save',
+      data: this.state.schema
+    };
+
+    this.postMsg(res);
+  };
+
   renderEditor() {
     const {theme} = this.props;
     const {preview, type, schema} = this.state;
@@ -559,13 +286,13 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
   }
 
   render() {
-    const {preview, type, curLanguage, schema, loadEditor, templateLoadingTip} = this.state;
+    const {preview, title, loadEditor, templateLoadingTip} = this.state;
     return (
       <div className="Editor-inner">
         <Portal container={() => document.querySelector('#headerBar') as any}>
           <>
             <div className="Editor-view-mode-group-container" style={{fontWeight: 'bold'}}>
-              {window?.$wujie?.props.pageName || '页面名称'}
+              {title}
             </div>
             <div className="Editor-header-actions">
               <FullScreen />
@@ -590,17 +317,7 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
               {preview ? (
                 <></>
               ) : (
-                <div
-                  className={`header-action-btn primary`}
-                  onClick={() => {
-                    const props = window.$wujie?.props;
-                    this.onSave(); // 触发原本缓存
-                    window.$wujie?.bus.$emit(`save_${props.id}`, {
-                      id: props.id,
-                      data: schema
-                    });
-                  }}
-                >
+                <div className={`header-action-btn primary`} onClick={this.onSaveSchema}>
                   保存
                 </div>
               )}
