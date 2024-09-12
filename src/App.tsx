@@ -2,6 +2,8 @@ import * as React from 'react';
 import {AlertComponent, ToastComponent, ContextMenu} from 'amis';
 // @ts-ignore
 import AMisSchemaEditor from './Editor';
+import {Button} from 'amis';
+import {debounce} from 'lodash';
 import {Icon} from './icons/index';
 
 export default class App extends React.PureComponent {
@@ -15,13 +17,13 @@ export default class App extends React.PureComponent {
   }
 
   // 触发返回
-  onBack = () => {
+  onBack = debounce(() => {
     const res = {
       type: 'back'
     };
 
     this.postMsg(res);
-  };
+  }, 500);
 
   render() {
     // 备注: 如果需要改用antd主题，还需要将index.html换成index-antd.html
@@ -29,9 +31,10 @@ export default class App extends React.PureComponent {
     return (
       <div className="Editor-Demo">
         <div id="headerBar" style={{height: '40px'}} className="Editor-header">
-          <div
+          <Button
             className="Editor-title cursor-pointer"
             style={{fontWeight: 'bold', fontSize: '14px'}}
+            onClick={this.onBack}
           >
             <Icon
               icon="back"
@@ -41,10 +44,8 @@ export default class App extends React.PureComponent {
                 window?.$wujie?.bus.$emit(`routerBack`);
               }}
             />
-            <span style={{marginLeft: '6px'}} onClick={this.onBack}>
-              返回
-            </span>
-          </div>
+            <span style={{marginLeft: '6px'}}>返回</span>
+          </Button>
         </div>
         <AMisSchemaEditor theme={curTheme} />
         <ToastComponent theme={curTheme} />

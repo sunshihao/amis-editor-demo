@@ -4,7 +4,7 @@
  * 'url'
  */
 import request from '@/utils/axios';
-import { adapter } from '@/adapter';
+import {adapter} from '@/adapter';
 
 type HTTPMethod = 'get' | 'post' | 'put' | 'delete';
 
@@ -31,12 +31,19 @@ function processValue(url: string, method: HTTPMethod, context: RequestContext) 
       data: context
     }).then((res: any) => {
       // 1.执行js的方法 @fn:方法名
+
+      // 普通接口和分页接口判定 检测content
+      if (res.data.content) {
+        return {
+          status: 0,
+          data: res.data.content,
+          msg: ''
+        };
+      }
+
       return {
         status: 0,
-        data: {
-          data: res, // 固定格式,切勿修改
-          rows: res
-        },
+        data: res.data,
         msg: ''
       };
     });

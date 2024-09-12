@@ -45,17 +45,20 @@ service.interceptors.request.use(
 // response 拦截器
 service.interceptors.response.use(
   async (response: AxiosResponse<any>) => {
-    console.log('response---------', response);
+    // console.log('response---------', response);
     let {data} = response;
 
     const code = data.code || result_code;
     // 获取错误信息
-    if (code !== 200) {
-      return Promise.reject('error');
-    } else {
-      console.log('data-----', data);
-      return JSON.parse(JSON.stringify(data));
-    }
+    // if (code !== 200) {
+    //   return Promise.reject('error');
+    // } else {
+    //   // console.log('data-----', data);
+    //   // 暂时不对此处进行处理
+    //   return JSON.parse(JSON.stringify(data));
+    // }
+
+    return JSON.parse(JSON.stringify(data));
   },
   (error: AxiosError) => {
     return Promise.reject(error);

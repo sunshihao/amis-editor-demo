@@ -48,14 +48,21 @@ $disabled-bg-color: #f7f7f9; // 禁用背景颜色
   flex-direction: column;
 
   .Editor-header {
-    flex: 0 0 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     position: relative;
     background: #fff;
-    // box-shadow: 0 2px 7px 0 rgba(232,232,232,0.50);
-    display: flex;
     border-bottom: 1px solid $editor-border-color;
     box-sizing: border-box;
     z-index: 1000;
+
+    button {
+      border: 0;
+      &:hover {
+        border: 0 !important
+      }
+    }
 
     svg {
       display: inline-block;
@@ -63,7 +70,6 @@ $disabled-bg-color: #f7f7f9; // 禁用背景颜色
     }
 
     .Editor-title {
-      flex: 1 1 565px;
       padding: 0 15px;
       font-family: PingFangSC-Medium;
       font-size: 16px;
@@ -76,7 +82,6 @@ $disabled-bg-color: #f7f7f9; // 禁用背景颜色
     }
 
     .Editor-view-mode-group-container {
-      flex: 0 1 150px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -84,7 +89,6 @@ $disabled-bg-color: #f7f7f9; // 禁用背景颜色
       .Editor-view-mode-group {
         font-size: 14px;
         font-family: PingFangSC-Regular;
-        // color: #fff;
         letter-spacing: 0;
         text-align: center;
         width: 100px;
@@ -138,7 +142,6 @@ $disabled-bg-color: #f7f7f9; // 禁用背景颜色
     }
 
     .Editor-header-actions {
-      flex: 1 1 565px;
       padding: 0 24px;
       font-size: 12px;
       white-space: nowrap;

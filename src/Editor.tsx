@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {Editor, ShortcutKey, setThemeConfig} from 'amis-editor';
-import {uuid, Button} from 'amis';
+import {Button} from 'amis';
 import {currentLocale} from 'i18n-runtime';
 import {Portal} from 'react-overlays';
 import LayoutList from './layout/index';
@@ -11,6 +11,7 @@ import {headers} from '@/utils/params';
 import {schema, schemas, variableSchemas, variableDefaultData} from '@/utils';
 import request from '@/utils/request';
 import {getTemplateList} from './api';
+import {debounce} from 'lodash';
 
 const i18nEnabled = false; // 国际化
 setThemeConfig(antdData);
@@ -43,13 +44,15 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
     schema: localStorage.getItem('editting_schema')
       ? JSON.parse(localStorage.getItem('editting_schema')!)
       : schema,
+    // schema: schema,
     curLanguage: currentLocale(), // 获取当前语料类型
     loadEditor: false,
     templateLoadingTip: '模板加载中...',
     timer: null,
     template: null,
     settings: null,
-    title: '页面名称'
+    title: '页面名称',
+    listener: null
   };
 
   constructor(props: any) {
@@ -74,8 +77,9 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
 
   obj: any;
 
-  // 初始化通讯
+  // 初始化Iframe通讯
   initCommunication = (event: any) => {
+    const that = this
     let data = event.data;
 
     if (!data) return;
@@ -85,18 +89,24 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
     }
 
     if (data.type === 'setSchema') {
+      console.log('-----------iframe入参-----------', data);
+
       this.inited = true;
       this.obj = data.data;
 
-      this.setState({
+      that.setState({
         schema: data.data,
         template: data.templateList,
         title: data.title
       });
 
       if (data.templateList) {
-        this.initTemplatePlugin(data.templateList); // 初始化模板信息
+        that.initTemplatePlugin(data.templateList); // 初始化模板信息
       }
+
+      that.setState({
+        loadEditor: true
+      });
     } else if (data.type === 'alert') {
       alert(data.message);
     } else if (data.type === 'toast') {
@@ -105,9 +115,19 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
   };
 
   componentDidMount(): void {
+    // 先清
+    // if (this.state.listener) {
+    //   window.removeEventListener('message', this.initCommunication);
+    // } else {
+    // this.setState({
+    // listener:
+    // });
+    // }
     window.addEventListener('message', this.initCommunication);
 
-    this.initTemplatePlugin([]); // 初始化模板信息
+    this.setState({
+      loadEditor: true
+    });
 
     if (!this.inited) {
       this.inited = true;
@@ -117,6 +137,7 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
 
   // 页面销毁时清除监听
   componentWillUnmount(): void {
+    console.log('页面正常销毁');
     window.removeEventListener('message', this.initCommunication);
   }
 
@@ -254,16 +275,14 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
   };
 
   // 触发保存操作
-  onSaveSchema = () => {
+  onSaveSchema = debounce(() => {
     this.onSave();
-
     const res = {
       type: 'save',
       data: this.state.schema
     };
-
     this.postMsg(res);
-  };
+  }, 500);
 
   renderEditor() {
     const {theme} = this.props;
@@ -325,38 +344,21 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
             <div className="Editor-header-actions">
               <FullScreen />
               <ShortcutKey />
-              {i18nEnabled && (
-                <Button
-                  className="ml-2"
-                  level="info"
-                  onClick={() => {
-                    let _uuid = uuid();
-                    this.setState({
-                      appLocale: _uuid,
-                      replaceText: {
-                        'i18n:1189fb5d-ac5b-4558-b363-068ce5decc99': _uuid
-                      }
-                    });
-                  }}
-                >
-                  切换语料内容
-                </Button>
-              )}
               {preview ? (
                 <></>
               ) : (
-                <div className={`header-action-btn primary`} onClick={this.onSaveSchema}>
+                <Button className={`header-action-btn primary`} onClick={this.onSaveSchema}>
                   保存
-                </div>
+                </Button>
               )}
-              <div
+              <Button
                 className={`header-action-btn ${preview ? 'primary' : ''}`}
                 onClick={() => {
                   this.togglePreview();
                 }}
               >
                 {preview ? '编辑' : '预览'}
-              </div>
+              </Button>
             </div>
           </>
         </Portal>
