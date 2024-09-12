@@ -9,7 +9,8 @@ import FullScreen from './views/fullScreen';
 import template_new from './layout/plugin/index';
 import {headers} from '@/utils/params';
 import {schema, schemas, variableSchemas, variableDefaultData} from '@/utils';
-import request from '@/utils/request'
+import request from '@/utils/request';
+import {getTemplateList} from './api';
 
 const i18nEnabled = false; // 国际化
 setThemeConfig(antdData);
@@ -53,15 +54,9 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
 
   constructor(props: any) {
     super(props);
-
-    if (i18nEnabled) {
-      this.state = {
-        ...this.state,
-        replaceText: {
-          'i18n:1189fb5d-ac5b-4558-b363-068ce5decc99': uuid()
-        }
-      };
-    }
+    this.state = {
+      ...this.state
+    };
     const type = localStorage.getItem('editting_preview_type') || EditorType.EDITOR;
     this.state.schema = this.getSchema(type);
   }
@@ -79,39 +74,40 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
 
   obj: any;
 
-  componentDidMount(): void {
-    if (!this.state.timer) {
-      this.setState({
-        timer: window.addEventListener('message', event => {
-          let data = (event as any).data;
+  // 初始化通讯
+  initCommunication = (event: any) => {
+    let data = event.data;
 
-          if (!data) return;
+    if (!data) return;
 
-          if (this.isString(data) && data.startsWith('{')) {
-            data = JSON.parse(data);
-          }
-
-          if (data.type === 'setSchema') {
-            this.inited = true;
-            this.obj = data.data;
-
-            this.setState({
-              schema: data.data,
-              template: data.templateList,
-              // settings: data.settings,
-              title: data.title
-            });
-
-            this.initTemplatePlugin(data.templateList); // 初始化模板信息
-          } else if (data.type === 'alert') {
-            alert(data.message);
-          } else if (data.type === 'toast') {
-            const level: string = data.level || 'info';
-            console.log('level', level);
-          }
-        })
-      });
+    if (this.isString(data) && data.startsWith('{')) {
+      data = JSON.parse(data);
     }
+
+    if (data.type === 'setSchema') {
+      this.inited = true;
+      this.obj = data.data;
+
+      this.setState({
+        schema: data.data,
+        template: data.templateList,
+        title: data.title
+      });
+
+      if (data.templateList) {
+        this.initTemplatePlugin(data.templateList); // 初始化模板信息
+      }
+    } else if (data.type === 'alert') {
+      alert(data.message);
+    } else if (data.type === 'toast') {
+      const level: string = data.level || 'info';
+    }
+  };
+
+  componentDidMount(): void {
+    window.addEventListener('message', this.initCommunication);
+
+    this.initTemplatePlugin([]); // 初始化模板信息
 
     if (!this.inited) {
       this.inited = true;
@@ -121,9 +117,7 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
 
   // 页面销毁时清除监听
   componentWillUnmount(): void {
-    if (this.state.timer) {
-      window.removeEventListener('message', this.state.timer);
-    }
+    window.removeEventListener('message', this.initCommunication);
   }
 
   // 模板设置初始化
@@ -153,6 +147,37 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
       that.setState({
         loadEditor: true
       });
+    } else {
+      getTemplateList()
+        .then(res => {
+          res.map((item: any, index: Number) => {
+            const {templateName, description, scaffold} = item;
+
+            // headers 替换
+            const replaceRes = JSON.stringify(scaffold, (key, value) => {
+              if (key == 'headers') {
+                return headers;
+              }
+              return value;
+            });
+
+            class itemNew extends template_new {
+              name = templateName || 'define Name';
+              description = description || '';
+              scaffold: any = JSON.parse(replaceRes); //scaffold
+            }
+            LayoutList.push(itemNew); //new Template(item)
+          });
+
+          that.setState({
+            loadEditor: true
+          });
+        })
+        .catch(err => {
+          that.setState({
+            loadEditor: true
+          });
+        });
     }
   }
 
