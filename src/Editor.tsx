@@ -10,7 +10,7 @@ import template_new from './layout/plugin/index';
 import {headers} from '@/utils/params';
 import {schema, schemas, variableSchemas, variableDefaultData} from '@/utils';
 import request from '@/utils/request';
-import {getTemplateList} from './api';
+import {getTemplateList, saveRemote, reflaseRemote} from './api';
 import {debounce} from 'lodash';
 
 const i18nEnabled = false; // 国际化
@@ -79,7 +79,7 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
 
   // 初始化Iframe通讯
   initCommunication = (event: any) => {
-    const that = this
+    const that = this;
     let data = event.data;
 
     if (!data) return;
@@ -115,14 +115,6 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
   };
 
   componentDidMount(): void {
-    // 先清
-    // if (this.state.listener) {
-    //   window.removeEventListener('message', this.initCommunication);
-    // } else {
-    // this.setState({
-    // listener:
-    // });
-    // }
     window.addEventListener('message', this.initCommunication);
 
     this.setState({
@@ -137,7 +129,6 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
 
   // 页面销毁时清除监听
   componentWillUnmount(): void {
-    console.log('页面正常销毁');
     window.removeEventListener('message', this.initCommunication);
   }
 
@@ -284,6 +275,25 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
     this.postMsg(res);
   }, 500);
 
+  _id = 10001
+
+  onSaveRemote = () => {
+    saveRemote({
+      id: this._id,
+      content: JSON.stringify(this.state.schema)
+    }).then(res => {
+      console.log('res--', res);
+    });
+  };
+
+  onReflaseRemote = () => {
+    reflaseRemote(this._id).then(res => {
+      this.setState({
+        schema: JSON.parse(res.content || '{}')
+      });
+    });
+  };
+
   renderEditor() {
     const {theme} = this.props;
     const {preview, type, schema} = this.state;
@@ -347,9 +357,17 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
               {preview ? (
                 <></>
               ) : (
-                <Button className={`header-action-btn primary`} onClick={this.onSaveSchema}>
-                  保存
-                </Button>
+                <>
+                  <Button className={`header-action-btn primary`} onClick={this.onSaveSchema}>
+                    保存
+                  </Button>
+                  <Button className={`header-action-btn primary`} onClick={this.onSaveRemote}>
+                    保存(远程)
+                  </Button>
+                  <Button className={`header-action-btn`} onClick={this.onReflaseRemote}>
+                    刷新(远程)
+                  </Button>
+                </>
               )}
               <Button
                 className={`header-action-btn ${preview ? 'primary' : ''}`}

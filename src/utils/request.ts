@@ -30,10 +30,11 @@ function processValue(url: string, method: HTTPMethod, context: RequestContext) 
       url: url.replace('/admin-api', ''), // TODO 减少一层
       data: context
     }).then((res: any) => {
+      console.log('res------', res)
       // 1.执行js的方法 @fn:方法名
 
       // 普通接口和分页接口判定 检测content
-      if (res.data.content) {
+      if (res?.data?.content) {
         return {
           status: 0,
           data: res.data.content,
@@ -43,7 +44,7 @@ function processValue(url: string, method: HTTPMethod, context: RequestContext) 
 
       return {
         status: 0,
-        data: res.data,
+        data: res?.data || res,
         msg: ''
       };
     });

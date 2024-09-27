@@ -40,6 +40,18 @@ $disabled-bg-color: #f7f7f9; // 禁用背景颜色
   }
 }
 
+.cxd-Table-table th, .cxd-Table-table td {
+  border: var(--Table-borderWidth) solid var(--Table-borderColor);
+}
+
+.cxd-Table2 .cxd-Table-table > thead > tr > th {
+  background-color: #d4d6d9;
+}
+
+.cxd-Collapse-header {
+  padding: 0;
+}
+
 .Editor-Demo {
   position: relative;
   height: 100vh;
